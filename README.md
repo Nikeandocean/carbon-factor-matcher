@@ -89,7 +89,7 @@ Get full metadata for a specific factor by its ID.
 
 ## Support
 
-- **Email:** tao.yan@zju.edu.cn
+- **Email:** nikeandocean@gmail.com
 - **Issues:** https://github.com/Nikeandocean/carbon-factor-matcher/issues
 
 ## License
