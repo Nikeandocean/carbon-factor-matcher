@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environment
+.venv/
+venv/
+
+# Data files
+*.zolca
+*.zip
+data/factors/*.json
+data/factors/processes/
+data/factors/flows/
+data/factors/unit_groups/
+data/factors/flow_properties/
+data/factors/lcia_categories/
+data/factors/locations/
+data/factors/sources/
+data/factors/actors/
+data/factors/bin/
+data/factors/currencies/
+data/factors/dq_systems/
+data/factors/lcia_methods/
+!data/factors/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+usage.db
+
+# Source code (not for public repo)
+src/
+tests/
+docs/
+*.py
+*.js
+*.yaml
+*.yml
+*.toml
+*.cfg
+*.ini
+*.json
+*.gz
+*.db
+*.bak
+CLAUDE.md
+MANIFEST.in
+SKILL.md
+build.py
+build_protected.py
+smithery.yaml
+package.json
+package-lock.json
+index.js
