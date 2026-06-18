@@ -38,7 +38,7 @@ Add to your MCP settings (`claude_desktop_config.json` or `.cursor/mcp.json`):
 | **Free** | $0 | ELCD database, basic keyword search, top 3 results |
 | **Pro** | $5 (one-time, lifetime) | ELCD + ecoinvent, hybrid matching, unlimited results, data quality rating |
 
-👉 **[Buy Pro License on Paddle](https://payproglobal.com/your-product-link)**
+👉 **[Buy Pro License](https://Nikeandocean.github.io/carbon-factor-matcher)**
 
 After purchase, you will receive a license key via email. Set it as the `CARBON_FACTOR_LICENSE_KEY` environment variable.
 
