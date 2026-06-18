@@ -82,20 +82,21 @@
             document.getElementById('buyBtn').textContent = 'Payment unavailable';
         }
 
+        // Load Paddle SDK via Cloudflare proxy (works in China without VPN)
         var script = document.createElement('script');
-        script.src = 'https://cdn.paddle.com/paddle/v3/paddle.js';
+        script.src = 'https://paddle-webhook.nikeandocean.workers.dev/paddle.js';
         script.onload = initPaddle;
         script.onerror = function() {
-            showError('Cannot reach Paddle CDN. If you are in China, please enable VPN and refresh this page.');
+            showError('Payment service is temporarily unavailable. Please try again later.');
         };
         document.head.appendChild(script);
 
-        // Timeout: if SDK not loaded in 10s, show error
+        // Timeout fallback
         setTimeout(function() {
             if (typeof Paddle === 'undefined') {
-                showError('Paddle SDK is taking too long to load. Please check your network connection. VPN may be required in some regions.');
+                showError('Payment SDK is taking too long to load. Please check your network and refresh.');
             }
-        }, 10000);
+        }, 15000);
     </script>
 </body>
 </html>
