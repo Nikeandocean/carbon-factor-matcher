@@ -12,7 +12,7 @@ An MCP server that connects LLMs with carbon emission factor databases. It finds
 
 ## Installation
 
-Add to your MCP settings (`claude_desktop_config.json` or `.cursor/mcp.json`):
+**Free — no license key needed.** Just set your LLM API key:
 
 ```json
 {
@@ -21,7 +21,6 @@ Add to your MCP settings (`claude_desktop_config.json` or `.cursor/mcp.json`):
       "command": "npx",
       "args": ["-y", "@nikeandocean/carbon-factor-matcher"],
       "env": {
-        "CARBON_FACTOR_LICENSE_KEY": "your-license-key",
         "LLM_API_KEY": "your-api-key",
         "LLM_BASE_URL": "https://api.deepseek.com",
         "LLM_MODEL": "deepseek-chat"
@@ -31,6 +30,8 @@ Add to your MCP settings (`claude_desktop_config.json` or `.cursor/mcp.json`):
 }
 ```
 
+Pro users add `"CARBON_FACTOR_LICENSE_KEY": "PRO-xxx"` to the `env` block.
+
 ## Try the Demo
 
 👉 **[Free Online Demo](https://Nikeandocean.github.io/carbon-factor-matcher/demo.html)** — Search 30+ emission factors directly in your browser. No signup needed.
@@ -39,21 +40,21 @@ Add to your MCP settings (`claude_desktop_config.json` or `.cursor/mcp.json`):
 
 | Plan | Price | Features |
 |------|-------|----------|
-| **Free** | $0 | ELCD database, basic keyword search, top 3 results |
-| **Pro** | $5 (one-time, lifetime) | ELCD + ecoinvent (21,000+ factors), AI matching, unlimited results, data quality rating |
+| **Free** | $0 | ELCD database, basic keyword search, 300 queries/day |
+| **Pro** | $5 (one-time, lifetime) | ELCD + ecoinvent (21,000+ factors), AI matching, unlimited queries, data quality rating |
 
 👉 **[Buy Pro License](https://Nikeandocean.github.io/carbon-factor-matcher)**
 
-After purchase, you will receive a license key via email. Set it as the `CARBON_FACTOR_LICENSE_KEY` environment variable.
+After purchase, you will receive a license key via email.
 
 ## Configuration
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `CARBON_FACTOR_LICENSE_KEY` | Your license key (empty = Free tier) | — |
-| `LLM_API_KEY` | LLM API key (DeepSeek or OpenAI-compatible) | — |
+| `LLM_API_KEY` | LLM API key (DeepSeek or OpenAI-compatible) | — (required) |
 | `LLM_BASE_URL` | LLM endpoint URL | `https://api.deepseek.com` |
 | `LLM_MODEL` | LLM model name | `deepseek-chat` |
+| `CARBON_FACTOR_LICENSE_KEY` | Pro license key (omit for Free tier) | — |
 | `CARBON_FACTOR_DATA_DIR` | Path to factor database | `data/factors` |
 
 ## Available Tools

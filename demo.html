@@ -149,7 +149,8 @@
 
         <div class="upgrade-banner">
             <p>This demo shows <strong>basic keyword search</strong> on a subset of ELCD data.<br/>
-            Pro version adds: <strong>ecoinvent 3.10</strong> (21,000+ factors), <strong>AI-powered matching</strong>, <strong>5-dimension quality rating</strong>, and <strong>unlimited results</strong>.</p>
+            Free version: <strong>300 queries/day</strong>, ELCD database, basic search.<br/>
+            Pro version adds: <strong>ecoinvent 3.10</strong> (21,000+ factors), <strong>AI-powered matching</strong>, <strong>5-dimension quality rating</strong>, <strong>unlimited queries</strong>.</p>
             <a href="https://Nikeandocean.github.io/carbon-factor-matcher" class="upgrade-btn">Upgrade to Pro — $5</a>
         </div>
     </div>
@@ -218,17 +219,14 @@ function search() {
 
     scored.sort(function(a, b) { return b.score - a.score; });
 
-    // Free tier: top 3 results only
-    var top = scored.slice(0, 3);
-
-    if (top.length === 0) {
+    if (scored.length === 0) {
         resultsDiv.innerHTML = '<div class="no-results">No matching factors found. Try: electricity, diesel, steel, cement...</div>';
         return;
     }
 
-    var html = '';
-    for (var i = 0; i < top.length; i++) {
-        var f = top[i].factor;
+    var html = '<div class="limit-note" style="margin-bottom:0.8rem;text-align:left">' + scored.length + ' match(es) found</div>';
+    for (var i = 0; i < scored.length; i++) {
+        var f = scored[i].factor;
         html += '<div class="card">';
         html += '<div class="card-name">' + f.name + '<span class="badge badge-free">ELCD</span></div>';
         html += '<div class="card-meta">';
@@ -238,10 +236,6 @@ function search() {
         html += '</div>';
         html += '<div class="card-value">' + f.value.toFixed(4) + ' ' + f.unit + '</div>';
         html += '</div>';
-    }
-
-    if (scored.length > 3) {
-        html += '<div class="limit-note">Showing top 3 of ' + scored.length + ' matches. <a href="https://Nikeandocean.github.io/carbon-factor-matcher" style="color:#58a6ff">Upgrade to Pro</a> for unlimited results + ecoinvent + AI matching.</div>';
     }
 
     resultsDiv.innerHTML = html;
