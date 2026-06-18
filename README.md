@@ -212,31 +212,15 @@ Get full metadata for a specific factor.
 }
 ```
 
+## Demo
+
+👉 **[Try the Live Demo](https://nikeandocean.github.io/carbon-factor-matcher/demo.html)** — Search 30+ emission factors directly in your browser (no installation needed).
+
 ## System Requirements
 
 - Node.js 18+ (for `npx`)
 - Python 3.11+ (auto-installed via pip)
 - LLM API key (Pro tier only — DeepSeek recommended)
-
-## Tech Stack
-
-- **MCP SDK** — Model Context Protocol implementation
-- **Sentence Transformers** — Semantic embedding (shibing624/text2vec-base-chinese)
-- **DeepSeek/OpenAI** — LLM-based factor ranking
-- **SQLite** — Usage tracking
-- **Cloudflare Workers** — API and webhook processing
-- **Paddle** — Payment processing
-
-## Discovery
-
-This MCP server is available on:
-
-| Platform | Link | Status |
-|----------|------|--------|
-| **npm** | [@nikeandocean/carbon-factor-matcher](https://www.npmjs.com/package/@nikeandocean/carbon-factor-matcher) | Published |
-| **Smithery.ai** | [smithery.ai/server/@nikeandocean/carbon-factor-matcher](https://smithery.ai/server/@nikeandocean/carbon-factor-matcher) | Listed |
-| **mcp.so** | [mcp.so](https://mcp.so) | Submit via site |
-| **Glama.ai** | [glama.ai/mcp/servers](https://glama.ai/mcp/servers) | Auto-indexed from npm |
 
 ## Support
 
