@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Factor Matcher — Try Free Demo</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #0d1117;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 720px; margin: 0 auto; }
+        h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
+        .subtitle { color: #8b949e; margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            background: #161b22;
+            color: #e6edf3;
+            font-size: 1rem;
+            outline: none;
+        }
+        .search-box input:focus { border-color: #58a6ff; }
+        .search-box button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #238636;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .search-box button:hover { background: #2ea043; }
+        .examples {
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+        .examples span {
+            display: inline-block;
+            background: #21262d;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin: 2px 4px 2px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .examples span:hover { background: #30363d; }
+        .results { margin-top: 1rem; }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .card:hover { border-color: #58a6ff; }
+        .card-name { font-weight: 600; font-size: 1.05rem; margin-bottom: 6px; }
+        .card-meta { color: #8b949e; font-size: 0.85rem; line-height: 1.6; }
+        .card-value {
+            display: inline-block;
+            background: #1f6feb22;
+            color: #58a6ff;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .badge-free { background: #238636; color: #fff; }
+        .badge-pro { background: #8957e5; color: #fff; }
+        .no-results {
+            text-align: center;
+            color: #8b949e;
+            padding: 2rem 0;
+        }
+        .upgrade-banner {
+            background: linear-gradient(135deg, #1f6feb22, #8957e522);
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .upgrade-banner p { color: #8b949e; margin-bottom: 12px; font-size: 0.9rem; }
+        .upgrade-btn {
+            display: inline-block;
+            background: #238636;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .upgrade-btn:hover { background: #2ea043; }
+        .limit-note {
+            text-align: center;
+            color: #8b949e;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 Carbon Factor Matcher</h1>
+        <p class="subtitle">Try the free demo — search emission factors from the ELCD database</p>
+
+        <div class="search-box">
+            <input type="text" id="query" placeholder="e.g. electricity, diesel, natural gas, transport..." />
+            <button onclick="search()">Search</button>
+        </div>
+
+        <div class="examples">
+            Try:
+            <span onclick="setQuery('electricity')">electricity</span>
+            <span onclick="setQuery('diesel')">diesel</span>
+            <span onclick="setQuery('natural gas')">natural gas</span>
+            <span onclick="setQuery('transport freight')">transport</span>
+            <span onclick="setQuery('steel')">steel</span>
+            <span onclick="setQuery('cement')">cement</span>
+            <span onclick="setQuery('plastic')">plastic</span>
+            <span onclick="setQuery('paper')">paper</span>
+        </div>
+
+        <div class="results" id="results"></div>
+
+        <div class="upgrade-banner">
+            <p>This demo shows <strong>basic keyword search</strong> on a subset of ELCD data.<br/>
+            Pro version adds: <strong>ecoinvent 3.10</strong> (21,000+ factors), <strong>AI-powered matching</strong>, <strong>5-dimension quality rating</strong>, and <strong>unlimited results</strong>.</p>
+            <a href="https://Nikeandocean.github.io/carbon-factor-matcher" class="upgrade-btn">Upgrade to Pro — $5</a>
+        </div>
+    </div>
+
+<script>
+// Sample ELCD emission factors (subset for demo)
+var FACTORS = [
+    { name: "Electricity, medium voltage", category: "Electricity", value: 0.4500, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "EU average grid mix" },
+    { name: "Electricity, high voltage", category: "Electricity", value: 0.4200, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "EU average, transmission level" },
+    { name: "Natural gas, burned in boiler", category: "Fuel", value: 0.2050, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Industrial boiler, condensing" },
+    { name: "Natural gas, burned in CHP plant", category: "Fuel", value: 0.1850, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Combined heat and power" },
+    { name: "Diesel, burned in engine", category: "Fuel", value: 0.2660, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Automotive diesel oil" },
+    { name: "Heavy fuel oil, burned in boiler", category: "Fuel", value: 0.2800, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Industrial heating" },
+    { name: "Lignite, burned in power plant", category: "Fuel", value: 0.3600, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Electricity generation" },
+    { name: "Hard coal, burned in power plant", category: "Fuel", value: 0.3400, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Steam coal for electricity" },
+    { name: "LPG, burned in boiler", category: "Fuel", value: 0.2300, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Liquefied petroleum gas" },
+    { name: "Transport, freight, lorry >32t", category: "Transport", value: 0.0620, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Heavy truck, EURO6" },
+    { name: "Transport, freight, lorry 16-32t", category: "Transport", value: 0.0890, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Medium truck" },
+    { name: "Transport, freight, lorry 3.5-7.5t", category: "Transport", value: 0.1800, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Light commercial vehicle" },
+    { name: "Transport, freight, sea, container ship", category: "Transport", value: 0.0105, unit: "kgCO2e/tkm", geo: "Global", source: "ELCD", year: 2023, note: "Ocean freight" },
+    { name: "Transport, freight, rail", category: "Transport", value: 0.0280, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Diesel locomotive" },
+    { name: "Transport, passenger, car, petrol", category: "Transport", value: 0.1920, unit: "kgCO2e/km", geo: "Europe", source: "ELCD", year: 2023, note: "Average passenger car" },
+    { name: "Steel, converter, unalloyed", category: "Metals", value: 1.4200, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "BOF steelmaking" },
+    { name: "Steel, electric arc, unalloyed", category: "Metals", value: 0.6800, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "EAF steelmaking" },
+    { name: "Aluminium, primary, ingot", category: "Metals", value: 8.2400, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Electrolysis production" },
+    { name: "Copper, cathode", category: "Metals", value: 3.5000, unit: "kgCO2e/kg", geo: "Global", source: "ELCD", year: 2023, note: "Pyrometallurgical route" },
+    { name: "Cement, Portland", category: "Construction", value: 0.7300, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "CEM I 42.5" },
+    { name: "Concrete, normal strength", category: "Construction", value: 0.1200, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "C30/37 ready-mix" },
+    { name: "Brick, common", category: "Construction", value: 0.2400, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Clay brick" },
+    { name: "Glass, flat", category: "Construction", value: 0.8500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Float glass" },
+    { name: "Polyethylene, LDPE", category: "Plastics", value: 1.8500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Low-density polyethylene" },
+    { name: "Polypropylene, PP", category: "Plastics", value: 1.6500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "General purpose" },
+    { name: "PET, bottle grade", category: "Plastics", value: 2.1500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Polyethylene terephthalate" },
+    { name: "Paper, virgin, uncoated", category: "Paper", value: 1.0800, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Copy paper" },
+    { name: "Paper, recycled", category: "Paper", value: 0.5200, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Recycled fiber content" },
+    { name: "Cardboard, corrugated", category: "Paper", value: 0.5600, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Packaging" },
+    { name: "Tap water", category: "Water", value: 0.0003, unit: "kgCO2e/L", geo: "Europe", source: "ELCD", year: 2023, note: "Mains water supply" },
+    { name: "Wastewater treatment", category: "Water", value: 0.0008, unit: "kgCO2e/L", geo: "Europe", source: "ELCD", year: 2023, note: "Municipal treatment plant" },
+    { name: "District heating", category: "Heat", value: 0.1300, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Average EU district heat" },
+    { name: "District cooling", category: "Cooling", value: 0.0550, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Chilled water supply" },
+];
+
+function setQuery(q) {
+    document.getElementById('query').value = q;
+    search();
+}
+
+function search() {
+    var q = document.getElementById('query').value.toLowerCase().trim();
+    var resultsDiv = document.getElementById('results');
+
+    if (!q) {
+        resultsDiv.innerHTML = '';
+        return;
+    }
+
+    var words = q.split(/\s+/);
+    var scored = FACTORS.map(function(f) {
+        var text = (f.name + ' ' + f.category + ' ' + (f.note || '')).toLowerCase();
+        var score = 0;
+        for (var i = 0; i < words.length; i++) {
+            if (text.indexOf(words[i]) !== -1) score++;
+        }
+        return { factor: f, score: score };
+    }).filter(function(s) { return s.score > 0; });
+
+    scored.sort(function(a, b) { return b.score - a.score; });
+
+    // Free tier: top 3 results only
+    var top = scored.slice(0, 3);
+
+    if (top.length === 0) {
+        resultsDiv.innerHTML = '<div class="no-results">No matching factors found. Try: electricity, diesel, steel, cement...</div>';
+        return;
+    }
+
+    var html = '';
+    for (var i = 0; i < top.length; i++) {
+        var f = top[i].factor;
+        html += '<div class="card">';
+        html += '<div class="card-name">' + f.name + '<span class="badge badge-free">ELCD</span></div>';
+        html += '<div class="card-meta">';
+        html += 'Category: ' + f.category + '<br/>';
+        html += 'Geography: ' + f.geo + ' · Year: ' + f.year + '<br/>';
+        if (f.note) html += 'Note: ' + f.note;
+        html += '</div>';
+        html += '<div class="card-value">' + f.value.toFixed(4) + ' ' + f.unit + '</div>';
+        html += '</div>';
+    }
+
+    if (scored.length > 3) {
+        html += '<div class="limit-note">Showing top 3 of ' + scored.length + ' matches. <a href="https://Nikeandocean.github.io/carbon-factor-matcher" style="color:#58a6ff">Upgrade to Pro</a> for unlimited results + ecoinvent + AI matching.</div>';
+    }
+
+    resultsDiv.innerHTML = html;
+}
+
+// Search on Enter key
+document.getElementById('query').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') search();
+});
+</script>
+</body>
+</html>

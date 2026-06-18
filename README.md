@@ -31,12 +31,16 @@ Add to your MCP settings (`claude_desktop_config.json` or `.cursor/mcp.json`):
 }
 ```
 
+## Try the Demo
+
+👉 **[Free Online Demo](https://Nikeandocean.github.io/carbon-factor-matcher/demo.html)** — Search 30+ emission factors directly in your browser. No signup needed.
+
 ## Pricing
 
 | Plan | Price | Features |
 |------|-------|----------|
 | **Free** | $0 | ELCD database, basic keyword search, top 3 results |
-| **Pro** | $5 (one-time, lifetime) | ELCD + ecoinvent, hybrid matching, unlimited results, data quality rating |
+| **Pro** | $5 (one-time, lifetime) | ELCD + ecoinvent (21,000+ factors), AI matching, unlimited results, data quality rating |
 
 👉 **[Buy Pro License](https://Nikeandocean.github.io/carbon-factor-matcher)**
 
