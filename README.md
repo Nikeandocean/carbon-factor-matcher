@@ -1,18 +1,136 @@
 # Carbon Factor Matcher — MCP Server for Carbon Accounting
 
-An MCP server that connects LLMs with carbon emission factor databases. It finds the best emission factors for carbon accounting, LCA (Life Cycle Assessment), and ESG reporting.
+An MCP (Model Context Protocol) server that connects LLMs with carbon footprint databases. It provides intelligent emission factor matching for carbon accounting, LCA (Life Cycle Assessment), and ESG reporting applications.
 
-## Features
+## What is this MCP?
 
-- **Smart matching** — Two-stage search: semantic retrieval + LLM fine ranking
-- **Multi-database** — ELCD (included) + ecoinvent 3.10 (Pro)
-- **5-dimension data quality rating** — technology, geography, source reliability, time, factor type
-- **Bilingual** — Supports Chinese and English activity descriptions
-- **MCP-compatible** — Works with Claude, Cursor, and any MCP client
+Carbon Factor Matcher helps AI agents and LLM-based applications find the most appropriate emission factors from standardized environmental databases. It uses a two-stage hybrid search algorithm:
+
+1. **Embedding-based rough filtering** — Semantic similarity to find candidate factors
+2. **LLM-based fine ranking** — AI-powered selection with reasoning and confidence scores
+
+### Supported Databases
+
+- **ELCD** — European Reference Life Cycle Database (~600 factors, included in Free tier)
+- **ecoinvent 3.10** — Swiss Centre for Life Cycle Inventories (~21,000 factors, Pro license required)
+
+### Key Features
+
+- 5-dimension data quality rating (technology, geography, source, time, factor type)
+- Multi-language support (Chinese/English activity descriptions)
+- MCP-compatible — works with Claude, Cursor, Windsurf, Cline, Continue, and any MCP client
 
 ## Installation
 
-**Free — no license key needed.** Just set your LLM API key:
+### Claude Code
+
+```bash
+claude mcp add carbon-factor-matcher -- npx -y @nikeandocean/carbon-factor-matcher
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "carbon-factor-matcher": {
+      "command": "npx",
+      "args": ["-y", "@nikeandocean/carbon-factor-matcher"]
+    }
+  }
+}
+```
+
+Config file locations:
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+### Cursor
+
+Add to `.cursor/mcp.json` (project) or `~/.cursor/mcp.json` (global):
+
+```json
+{
+  "mcpServers": {
+    "carbon-factor-matcher": {
+      "command": "npx",
+      "args": ["-y", "@nikeandocean/carbon-factor-matcher"]
+    }
+  }
+}
+```
+
+Or via Cursor UI: **Settings → MCP → Add new global MCP server**.
+
+### Windsurf
+
+Add to `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "carbon-factor-matcher": {
+      "command": "npx",
+      "args": ["-y", "@nikeandocean/carbon-factor-matcher"]
+    }
+  }
+}
+```
+
+Or via Windsurf UI: **Settings → Cascade → MCP Servers → Add**.
+
+### Cline (VS Code Extension)
+
+Add to Cline MCP settings (click **MCP Servers** icon in Cline panel):
+
+```json
+{
+  "mcpServers": {
+    "carbon-factor-matcher": {
+      "command": "npx",
+      "args": ["-y", "@nikeandocean/carbon-factor-matcher"]
+    }
+  }
+}
+```
+
+### Continue (VS Code / JetBrains)
+
+Add to `~/.continue/config.yaml`:
+
+```yaml
+mcpServers:
+  - name: carbon-factor-matcher
+    command: npx
+    args:
+      - "-y"
+      - "@nikeandocean/carbon-factor-matcher"
+```
+
+### Smithery.ai (One-Click Install)
+
+```bash
+npx -y smithery mcp add nikeandocean/carbon-factor-matcher
+```
+
+Or visit [smithery.ai/server/@nikeandocean/carbon-factor-matcher](https://smithery.ai/server/@nikeandocean/carbon-factor-matcher) for hosted endpoint.
+
+## Pro License
+
+The Free tier works immediately after installation (300 queries/day, ELCD database, keyword search). To unlock the full experience:
+
+| Plan | Price | Features |
+|------|-------|----------|
+| **Free** | $0 | ELCD database (~600 factors), keyword search, 300 queries/day |
+| **Pro** | $5 (one-time) | ELCD + ecoinvent (~21,000 factors), LLM-powered matching, unlimited queries, data quality rating |
+
+### Purchase License Key
+
+👉 **[Buy Pro License](https://nikeandocean.github.io/carbon-factor-matcher)**
+
+After purchase, you'll receive a license key via email. Set it as an environment variable in your MCP config:
 
 ```json
 {
@@ -21,7 +139,8 @@ An MCP server that connects LLMs with carbon emission factor databases. It finds
       "command": "npx",
       "args": ["-y", "@nikeandocean/carbon-factor-matcher"],
       "env": {
-        "LLM_API_KEY": "your-api-key",
+        "CARBON_FACTOR_LICENSE_KEY": "PRO-xxxx-xxxx",
+        "LLM_API_KEY": "sk-xxxx",
         "LLM_BASE_URL": "https://api.deepseek.com",
         "LLM_MODEL": "deepseek-chat"
       }
@@ -30,39 +149,23 @@ An MCP server that connects LLMs with carbon emission factor databases. It finds
 }
 ```
 
-Pro users add `"CARBON_FACTOR_LICENSE_KEY": "PRO-xxx"` to the `env` block.
-
-## Try the Demo
-
-👉 **[Free Online Demo](https://Nikeandocean.github.io/carbon-factor-matcher/demo.html)** — Search 30+ emission factors directly in your browser. No signup needed.
-
-## Pricing
-
-| Plan | Price | Features |
-|------|-------|----------|
-| **Free** | $0 | ELCD database, basic keyword search, 300 queries/day |
-| **Pro** | $5 (one-time, lifetime) | ELCD + ecoinvent (21,000+ factors), AI matching, unlimited queries, data quality rating |
-
-👉 **[Buy Pro License](https://Nikeandocean.github.io/carbon-factor-matcher)**
-
-After purchase, you will receive a license key via email.
-
 ## Configuration
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `LLM_API_KEY` | LLM API key (DeepSeek or OpenAI-compatible) | — (required) |
+| `CARBON_FACTOR_LICENSE_KEY` | Your license key (empty = Free tier) | — |
+| `LLM_API_KEY` | LLM API key for Pro matching (DeepSeek/OpenAI) | — |
 | `LLM_BASE_URL` | LLM endpoint URL | `https://api.deepseek.com` |
 | `LLM_MODEL` | LLM model name | `deepseek-chat` |
-| `CARBON_FACTOR_LICENSE_KEY` | Pro license key (omit for Free tier) | — |
-| `CARBON_FACTOR_DATA_DIR` | Path to factor database | `data/factors` |
+| `CARBON_FACTOR_DATA_DIR` | Path to local factor database | `data/factors` |
 
 ## Available Tools
 
 ### `factor_match`
 
-Match activity data to the best emission factor.
+Match activity data to the best emission factor. Free tier uses keyword search; Pro tier uses hybrid embedding + LLM matching with quality assessment.
 
+**Input:**
 ```json
 {
   "activity_data": "Factory in Shenzhen, 10kV industrial electricity, 2024, semiconductor fab",
@@ -70,10 +173,26 @@ Match activity data to the best emission factor.
 }
 ```
 
+**Output:**
+```json
+{
+  "selected_factor": {
+    "id": "elec-cn-south-10kv-2024",
+    "name": "Electricity, 10kV, South China Grid",
+    "value": 0.6101,
+    "unit": "kgCO2e/kWh"
+  },
+  "confidence": 0.92,
+  "reason": "Best match for industrial electricity in South China region",
+  "alternatives": [...]
+}
+```
+
 ### `factor_search`
 
-Search emission factors by keyword with optional category filter.
+Search emission factors by keyword with optional filters.
 
+**Input:**
 ```json
 {
   "query": "diesel",
@@ -84,19 +203,50 @@ Search emission factors by keyword with optional category filter.
 
 ### `factor_detail`
 
-Get full metadata for a specific factor by its ID.
+Get full metadata for a specific factor.
 
+**Input:**
 ```json
 {
   "factor_id": "elec-cn-south-10kv-2024"
 }
 ```
 
+## System Requirements
+
+- Node.js 18+ (for `npx`)
+- Python 3.11+ (auto-installed via pip)
+- LLM API key (Pro tier only — DeepSeek recommended)
+
+## Tech Stack
+
+- **MCP SDK** — Model Context Protocol implementation
+- **Sentence Transformers** — Semantic embedding (shibing624/text2vec-base-chinese)
+- **DeepSeek/OpenAI** — LLM-based factor ranking
+- **SQLite** — Usage tracking
+- **Cloudflare Workers** — API and webhook processing
+- **Paddle** — Payment processing
+
+## Discovery
+
+This MCP server is available on:
+
+| Platform | Link | Status |
+|----------|------|--------|
+| **npm** | [@nikeandocean/carbon-factor-matcher](https://www.npmjs.com/package/@nikeandocean/carbon-factor-matcher) | Published |
+| **Smithery.ai** | [smithery.ai/server/@nikeandocean/carbon-factor-matcher](https://smithery.ai/server/@nikeandocean/carbon-factor-matcher) | Listed |
+| **mcp.so** | [mcp.so](https://mcp.so) | Submit via site |
+| **Glama.ai** | [glama.ai/mcp/servers](https://glama.ai/mcp/servers) | Auto-indexed from npm |
+
 ## Support
 
-- **Email:** nikeandocean@gmail.com
-- **Issues:** https://github.com/Nikeandocean/carbon-factor-matcher/issues
+- **Email:** tao.yan@zju.edu.cn
+- **Issues:** https://github.com/tra121vel/carbon-factor-matcher/issues
 
 ## License
 
-Proprietary. See [LICENSE](LICENSE) for details.
+This is proprietary software. See [LICENSE](LICENSE) for details.
+
+---
+
+© 2024 Carbon Factor Matcher. All rights reserved.
