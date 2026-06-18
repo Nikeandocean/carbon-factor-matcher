@@ -27,76 +27,20 @@
             font-weight: 600;
             text-decoration: none;
             border-radius: 8px;
-            border: none;
-            cursor: pointer;
             transition: background-color 0.2s;
         }
         .buy-btn:hover { background-color: #2ea043; }
-        .buy-btn:disabled {
-            background-color: #21262d;
-            color: #8b949e;
-            cursor: not-allowed;
-        }
         .footer { color: #8b949e; font-size: 0.85rem; margin-top: 1.5rem; }
-        .error-msg {
-            display: none;
-            color: #f85149;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            max-width: 420px;
-            text-align: center;
-            line-height: 1.5;
-        }
     </style>
 </head>
 <body>
     <h1>Carbon Factor Matcher MCP</h1>
     <p class="subtitle">Intelligent emission factor matching for carbon accounting &amp; LCA</p>
 
-    <button class="buy-btn" id="buyBtn" disabled>Loading payment...</button>
+    <a class="buy-btn" href="https://paddle-webhook.nikeandocean.workers.dev/checkout">
+        Buy Pro License — $5 USD
+    </a>
 
     <p class="footer">One-time purchase · Lifetime access · PayPal &amp; WeChat Pay</p>
-    <p class="error-msg" id="errorMsg"></p>
-
-    <script>
-        function initPaddle() {
-            if (typeof Paddle === 'undefined') {
-                showError('Payment SDK loaded but not initialized. Please refresh.');
-                return;
-            }
-            Paddle.Environment.set('production');
-            Paddle.Initialize({ token: 'live_d5cceb859b6516f59cdcbf75420' });
-
-            var btn = document.getElementById('buyBtn');
-            btn.textContent = 'Buy Pro License — $5 USD';
-            btn.disabled = false;
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                Paddle.Checkout.open({ items: [{ priceId: 'pri_01kvcaxdehj24q7nftmd2r513r', quantity: 1 }] });
-            });
-        }
-
-        function showError(msg) {
-            document.getElementById('errorMsg').textContent = msg;
-            document.getElementById('errorMsg').style.display = 'block';
-            document.getElementById('buyBtn').textContent = 'Payment unavailable';
-        }
-
-        // Load Paddle SDK via Cloudflare proxy (works in China without VPN)
-        var script = document.createElement('script');
-        script.src = 'https://paddle-webhook.nikeandocean.workers.dev/paddle.js';
-        script.onload = initPaddle;
-        script.onerror = function() {
-            showError('Payment service is temporarily unavailable. Please try again later.');
-        };
-        document.head.appendChild(script);
-
-        // Timeout fallback
-        setTimeout(function() {
-            if (typeof Paddle === 'undefined') {
-                showError('Payment SDK is taking too long to load. Please check your network and refresh.');
-            }
-        }, 15000);
-    </script>
 </body>
 </html>
