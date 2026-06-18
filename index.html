@@ -27,6 +27,8 @@
             font-weight: 600;
             text-decoration: none;
             border-radius: 8px;
+            border: none;
+            cursor: pointer;
             transition: background-color 0.2s;
         }
         .buy-btn:hover { background-color: #2ea043; }
@@ -37,11 +39,35 @@
     <h1>Carbon Factor Matcher MCP</h1>
     <p class="subtitle">Intelligent emission factor matching for carbon accounting &amp; LCA</p>
 
-    <a class="buy-btn" href="https://paddle-webhook.nikeandocean.workers.dev/checkout">
+    <button id="buyButton" class="buy-btn">
         Buy Pro License — $5 USD
-    </a>
+    </button>
 
     <p class="footer">One-time purchase · Lifetime access · PayPal &amp; WeChat Pay</p>
     <p style="margin-top: 1rem;"><a href="demo.html" style="color: #58a6ff; text-decoration: none; font-size: 0.9rem;">Try the free demo first →</a></p>
+
+    <script src="https://cdn.paddle.com/paddle/v3/paddle.js"></script>
+    <script type="text/javascript">
+        Paddle.Environment.set('production');
+        Paddle.Initialize({
+            token: "live_d5cceb859b6516f59cdcbf75420"
+        });
+
+        document.getElementById('buyButton').addEventListener('click', function() {
+            Paddle.Checkout.open({
+                settings: {
+                    displayMode: "overlay",
+                    theme: "dark",
+                    locale: "en"
+                },
+                items: [
+                    {
+                        priceId: "pri_01kvcaxdehj24q7nftmd2r513r",
+                        quantity: 1
+                    }
+                ]
+            });
+        });
+    </script>
 </body>
 </html>
