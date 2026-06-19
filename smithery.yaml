@@ -6,7 +6,7 @@ description: >
   MCP server for intelligent emission factor matching from ELCD and ecoinvent
   databases. Supports carbon accounting, LCA, and ESG reporting with AI-powered
   semantic search and 5-dimension data quality assessment.
-version: 1.0.6
+version: 1.0.7
 author: nikeandocean
 homepage: https://nikeandocean.github.io/carbon-factor-matcher/
 repository: https://github.com/nikeandocean/carbon-factor-matcher
