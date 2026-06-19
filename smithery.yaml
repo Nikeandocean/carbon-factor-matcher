@@ -6,7 +6,7 @@ description: >
   MCP server for intelligent emission factor matching from ELCD and ecoinvent
   databases. Supports carbon accounting, LCA, and ESG reporting with AI-powered
   semantic search and 5-dimension data quality assessment.
-version: 1.0.8
+version: 1.0.9
 author: nikeandocean
 homepage: https://nikeandocean.github.io/carbon-factor-matcher/
 repository: https://github.com/nikeandocean/carbon-factor-matcher
@@ -21,8 +21,10 @@ pythonVersion: "3.11"
 # Environment variables required
 env:
   - name: LLM_API_KEY
-    description: API key for the LLM (DeepSeek, OpenAI, etc.)
-    required: true
+    description: >
+      API key for the LLM (DeepSeek, OpenAI, etc.) for Pro-tier hybrid matching.
+      Leave empty to use free-tier keyword search only.
+    required: false
   - name: LLM_BASE_URL
     description: Base URL for the LLM API
     default: https://api.deepseek.com
