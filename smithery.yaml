@@ -61,6 +61,33 @@ tools:
           Higher values improve recall but increase latency. Default: 10.
         default: 10
         required: false
+    outputSchema:
+      type: object
+      description: >
+        Standard response envelope wrapping the main result data with an optional
+        upgrade hint for free-tier users approaching their daily limit.
+      properties:
+        data:
+          type: object
+          description: >
+            The main response payload containing matched emission factors with fields:
+            selected_factor (id, name, value in kgCO2e/unit, unit, category, geography,
+            applicability, source, source_year), confidence (0-1 float), reason (matching
+            explanation), and alternatives (top 3 runner-up factors).
+        upgrade_hint:
+          type: string
+          nullable: true
+          description: >
+            Optional hint shown to free-tier users when approaching the daily query limit.
+            Contains the number of remaining queries and a link to upgrade to Pro.
+      required:
+        - data
+    annotations:
+      readOnlyHint: true
+      destructiveHint: false
+      idempotentHint: true
+      openWorldHint: false
+
   - name: factor_search
     description: >
       Keyword search over emission factor databases. Returns matching factors with
@@ -84,6 +111,31 @@ tools:
         description: Maximum number of results to return (1-50). Default: 10.
         default: 10
         required: false
+    outputSchema:
+      type: object
+      description: >
+        Standard response envelope wrapping search results with an optional
+        upgrade hint for free-tier users.
+      properties:
+        data:
+          type: object
+          description: >
+            Search results containing 'count' (number of matches) and 'factors' array.
+            Each factor has: id, name, value (kgCO2e per unit), unit, category,
+            geography, source, source_year.
+        upgrade_hint:
+          type: string
+          nullable: true
+          description: >
+            Optional hint for free-tier users near the daily limit.
+      required:
+        - data
+    annotations:
+      readOnlyHint: true
+      destructiveHint: false
+      idempotentHint: true
+      openWorldHint: false
+
   - name: factor_detail
     description: >
       Retrieve full metadata for a specific emission factor by its unique identifier.
@@ -98,6 +150,30 @@ tools:
           Unique identifier of the emission factor, as returned by factor_match
           or factor_search. Example: "urn:uuid:bab6dd4e-a2ea-4fd9-a585-e8edafcb42e1".
         required: true
+    outputSchema:
+      type: object
+      description: >
+        Standard response envelope wrapping factor metadata with an optional
+        upgrade hint for free-tier users.
+      properties:
+        data:
+          type: object
+          description: >
+            Full factor metadata including: id, name, category, value (kgCO2e per unit),
+            unit, geography, applicability, source, source_year. Pro tier additionally
+            returns 5-dimension quality ratings.
+        upgrade_hint:
+          type: string
+          nullable: true
+          description: >
+            Optional hint for free-tier users near the daily limit.
+      required:
+        - data
+    annotations:
+      readOnlyHint: true
+      destructiveHint: false
+      idempotentHint: true
+      openWorldHint: false
 
 # Tags for discovery
 tags:
