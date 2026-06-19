@@ -1,0 +1,115 @@
+# Smithery.ai configuration for Carbon Factor Matcher
+# https://smithery.ai/docs/config
+
+name: carbon-factor-matcher
+description: >
+  MCP server for intelligent emission factor matching from ELCD and ecoinvent
+  databases. Supports carbon accounting, LCA, and ESG reporting with AI-powered
+  semantic search and 5-dimension data quality assessment.
+version: 0.3.1
+author: nikeandocean
+homepage: https://nikeandocean.github.io/carbon-factor-matcher/
+repository: https://github.com/nikeandocean/carbon-factor-matcher
+
+# Entry point
+entryPoint: carbon_factor_matcher.server:main
+
+# Runtime configuration
+runtime: python
+pythonVersion: "3.11"
+
+# Environment variables required
+env:
+  - name: LLM_API_KEY
+    description: API key for the LLM (DeepSeek, OpenAI, etc.)
+    required: true
+  - name: LLM_BASE_URL
+    description: Base URL for the LLM API
+    default: https://api.deepseek.com
+  - name: LLM_MODEL
+    description: LLM model name
+    default: deepseek-chat
+  - name: CARBON_FACTOR_LICENSE_KEY
+    description: License key for Pro/Enterprise features
+    required: false
+  - name: CARBON_FACTOR_DATA_DIR
+    description: Path to factor data directory
+    default: data/factors
+
+# MCP tools exposed (explicit schema for Smithery scoring)
+tools:
+  - name: factor_match
+    description: >
+      Intelligent emission factor matching for carbon accounting and LCA.
+      Takes a natural-language activity description and returns the best-matching
+      emission factor with CO2-equivalent intensity, confidence score, and reasoning.
+      Free: ELCD keyword search (~600 European factors). Pro: embedding + LLM hybrid
+      matching over ecoinvent (~21,000 global factors) with 5-dimension quality ratings.
+    args:
+      activity_data:
+        type: string
+        description: >
+          Natural-language description of the activity, material, or process to match.
+          Examples: "Factory in Shenzhen, 10kV industrial electricity, 2024",
+          "diesel combustion for freight transport, EU", "水泥生产, 新型干法窑".
+          Supports both Chinese and English.
+        required: true
+      top_k:
+        type: integer
+        description: >
+          Number of candidate factors to consider in the rough filter stage (1-50).
+          Higher values improve recall but increase latency. Default: 10.
+        default: 10
+        required: false
+  - name: factor_search
+    description: >
+      Keyword search over emission factor databases. Returns matching factors with
+      CO2-equivalent intensity (kgCO2e per unit), unit, geographic scope, source,
+      and publication year. Supports optional category filtering.
+    args:
+      query:
+        type: string
+        description: >
+          Search keyword — material name, process, or activity.
+          Examples: "electricity", "diesel", "transport", "cement", "聚乙烯".
+        required: true
+      category:
+        type: string
+        description: >
+          Optional category filter. Common categories: "electricity", "fuel",
+          "transport", "chemicals", "metals", "construction".
+        required: false
+      limit:
+        type: integer
+        description: Maximum number of results to return (1-50). Default: 10.
+        default: 10
+        required: false
+  - name: factor_detail
+    description: >
+      Retrieve full metadata for a specific emission factor by its unique identifier.
+      Returns emission intensity value, unit, geographic scope, applicability conditions,
+      data source, publication year, and (Pro tier) 5-dimension data quality ratings
+      covering technology representativeness, source reliability, geographic and time
+      representativeness, and factor type.
+    args:
+      factor_id:
+        type: string
+        description: >
+          Unique identifier of the emission factor, as returned by factor_match
+          or factor_search. Example: "urn:uuid:bab6dd4e-a2ea-4fd9-a585-e8edafcb42e1".
+        required: true
+
+# Tags for discovery
+tags:
+  - carbon
+  - emission-factor
+  - lca
+  - ecoinvent
+  - sustainability
+  - climate
+
+# Category
+category: Science & Engineering
+
+# License
+license: Proprietary

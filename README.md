@@ -1,5 +1,4 @@
 [![smithery badge](https://smithery.ai/badge/nikeandocean/carbon-factor-matcher)](https://smithery.ai/servers/nikeandocean/carbon-factor-matcher)
-<!-- smithery-verification=8cf1413231e1ea292a0e45b7e2b3805e5969b57480f405413a3ab2d941a492f9 -->
 
 # Carbon Factor Matcher — MCP Server for Carbon Accounting
 
