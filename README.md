@@ -1,3 +1,5 @@
+[![smithery badge](https://smithery.ai/badge/nikeandocean/carbon-factor-matcher)](https://smithery.ai/servers/nikeandocean/carbon-factor-matcher)
+
 # Carbon Factor Matcher — MCP Server for Carbon Accounting
 
 An MCP (Model Context Protocol) server that connects LLMs with carbon footprint databases. It provides intelligent emission factor matching for carbon accounting, LCA (Life Cycle Assessment), and ESG reporting applications.
@@ -225,7 +227,7 @@ Get full metadata for a specific factor.
 ## Support
 
 - **Email:** tao.yan@zju.edu.cn
-- **Issues:** https://github.com/tra121vel/carbon-factor-matcher/issues
+- **Issues:** https://github.com/nikeandocean/carbon-factor-matcher/issues
 
 ## License
 
