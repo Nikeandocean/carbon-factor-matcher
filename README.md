@@ -22,6 +22,10 @@ Carbon Factor Matcher helps AI agents and LLM-based applications find the most a
 - Multi-language support (Chinese/English activity descriptions)
 - MCP-compatible — works with Claude, Cursor, Windsurf, Cline, Continue, and any MCP client
 
+### Query Example (Claude Code)
+
+![Carbon Factor Matcher query example in Claude Code](demo-query.png)
+
 ## Installation
 
 ### Claude Code
