@@ -156,41 +156,52 @@
     </div>
 
 <script>
-// Sample ELCD emission factors (subset for demo)
+// Emission factors extracted from ELCD + ecoinvent databases (2026-06-21)
+// Units reflect original source data: kgCO2e per functional unit
 var FACTORS = [
-    { name: "Electricity, medium voltage", category: "Electricity", value: 0.4500, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "EU average grid mix" },
-    { name: "Electricity, high voltage", category: "Electricity", value: 0.4200, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "EU average, transmission level" },
-    { name: "Natural gas, burned in boiler", category: "Fuel", value: 0.2050, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Industrial boiler, condensing" },
-    { name: "Natural gas, burned in CHP plant", category: "Fuel", value: 0.1850, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Combined heat and power" },
-    { name: "Diesel, burned in engine", category: "Fuel", value: 0.2660, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Automotive diesel oil" },
-    { name: "Heavy fuel oil, burned in boiler", category: "Fuel", value: 0.2800, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Industrial heating" },
-    { name: "Lignite, burned in power plant", category: "Fuel", value: 0.3600, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Electricity generation" },
-    { name: "Hard coal, burned in power plant", category: "Fuel", value: 0.3400, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Steam coal for electricity" },
-    { name: "LPG, burned in boiler", category: "Fuel", value: 0.2300, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Liquefied petroleum gas" },
-    { name: "Transport, freight, lorry >32t", category: "Transport", value: 0.0620, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Heavy truck, EURO6" },
-    { name: "Transport, freight, lorry 16-32t", category: "Transport", value: 0.0890, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Medium truck" },
-    { name: "Transport, freight, lorry 3.5-7.5t", category: "Transport", value: 0.1800, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Light commercial vehicle" },
-    { name: "Transport, freight, sea, container ship", category: "Transport", value: 0.0105, unit: "kgCO2e/tkm", geo: "Global", source: "ELCD", year: 2023, note: "Ocean freight" },
-    { name: "Transport, freight, rail", category: "Transport", value: 0.0280, unit: "kgCO2e/tkm", geo: "Europe", source: "ELCD", year: 2023, note: "Diesel locomotive" },
-    { name: "Transport, passenger, car, petrol", category: "Transport", value: 0.1920, unit: "kgCO2e/km", geo: "Europe", source: "ELCD", year: 2023, note: "Average passenger car" },
-    { name: "Steel, converter, unalloyed", category: "Metals", value: 1.4200, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "BOF steelmaking" },
-    { name: "Steel, electric arc, unalloyed", category: "Metals", value: 0.6800, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "EAF steelmaking" },
-    { name: "Aluminium, primary, ingot", category: "Metals", value: 8.2400, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Electrolysis production" },
-    { name: "Copper, cathode", category: "Metals", value: 3.5000, unit: "kgCO2e/kg", geo: "Global", source: "ELCD", year: 2023, note: "Pyrometallurgical route" },
-    { name: "Cement, Portland", category: "Construction", value: 0.7300, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "CEM I 42.5" },
-    { name: "Concrete, normal strength", category: "Construction", value: 0.1200, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "C30/37 ready-mix" },
-    { name: "Brick, common", category: "Construction", value: 0.2400, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Clay brick" },
-    { name: "Glass, flat", category: "Construction", value: 0.8500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Float glass" },
-    { name: "Polyethylene, LDPE", category: "Plastics", value: 1.8500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Low-density polyethylene" },
-    { name: "Polypropylene, PP", category: "Plastics", value: 1.6500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "General purpose" },
-    { name: "PET, bottle grade", category: "Plastics", value: 2.1500, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Polyethylene terephthalate" },
-    { name: "Paper, virgin, uncoated", category: "Paper", value: 1.0800, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Copy paper" },
-    { name: "Paper, recycled", category: "Paper", value: 0.5200, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Recycled fiber content" },
-    { name: "Cardboard, corrugated", category: "Paper", value: 0.5600, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2023, note: "Packaging" },
-    { name: "Tap water", category: "Water", value: 0.0003, unit: "kgCO2e/L", geo: "Europe", source: "ELCD", year: 2023, note: "Mains water supply" },
-    { name: "Wastewater treatment", category: "Water", value: 0.0008, unit: "kgCO2e/L", geo: "Europe", source: "ELCD", year: 2023, note: "Municipal treatment plant" },
-    { name: "District heating", category: "Heat", value: 0.1300, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Average EU district heat" },
-    { name: "District cooling", category: "Cooling", value: 0.0550, unit: "kgCO2e/kWh", geo: "Europe", source: "ELCD", year: 2023, note: "Chilled water supply" },
+    // === Electricity ===
+    { name: "Electricity grid mix, EU-27 average", category: "Electricity", value: 0.4629, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2008, note: "Grid mix <1kV, at consumer" },
+    { name: "Electricity grid mix, Germany", category: "Electricity", value: 0.5955, unit: "kgCO2e/kg", geo: "Germany", source: "ELCD", year: 2008, note: "230V, at consumer" },
+    { name: "Electricity grid mix, France", category: "Electricity", value: 0.1006, unit: "kgCO2e/kg", geo: "France", source: "ELCD", year: 2008, note: "230V, nuclear-dominated" },
+    { name: "Electricity grid mix, Spain", category: "Electricity", value: 0.4155, unit: "kgCO2e/kg", geo: "Spain", source: "ELCD", year: 2008, note: "230V, at consumer" },
+    { name: "Electricity from hydropower", category: "Electricity", value: 0.0058, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2008, note: "Run-of-river, production mix" },
+    { name: "Electricity from wind power", category: "Electricity", value: 0.0099, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2008, note: "Onshore, production mix" },
+
+    // === Fuel ===
+    { name: "Natural gas, consumption mix", category: "Fuel", value: 0.2858, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2002, note: "Pipeline gas, desulphurised" },
+    { name: "Diesel, refinery mix", category: "Fuel", value: 0.3552, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2008, note: "5.75% bio components" },
+    { name: "Hard coal, consumption mix", category: "Fuel", value: 0.1058, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2002, note: "At power plant" },
+    { name: "Lignite, consumption mix", category: "Fuel", value: 0.0175, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2002, note: "Open pit mining, at power plant" },
+    { name: "Heavy fuel oil, consumption mix", category: "Fuel", value: 0.1054, unit: "kgCO2e/kg", geo: "Germany", source: "ELCD", year: 2008, note: "Industrial heat plant" },
+    { name: "Heat, residential heating, light fuel oil", category: "Fuel", value: 0.0921, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2006, note: "At consumer, boiler" },
+
+    // === Transport ===
+    { name: "Articulated lorry, 40t, EURO0-4 mix", category: "Transport", value: 0.0485, unit: "kgCO2e/t*km", geo: "Europe", source: "ELCD", year: 2005, note: "Heavy truck, 27t payload" },
+    { name: "Lorry, 22t, EURO0-4 mix", category: "Transport", value: 0.0640, unit: "kgCO2e/t*km", geo: "Europe", source: "ELCD", year: 2005, note: "Medium truck, 17.3t payload" },
+    { name: "Small lorry, 7.5t, EURO0-4 mix", category: "Transport", value: 0.1320, unit: "kgCO2e/t*km", geo: "Europe", source: "ELCD", year: 2005, note: "Light commercial, 3.3t payload" },
+    { name: "Container ship, ocean freight", category: "Transport", value: 0.0127, unit: "kgCO2e/t*km", geo: "Europe", source: "ELCD", year: 2005, note: "27,500 dwt capacity" },
+    { name: "Rail freight, electric", category: "Transport", value: 0.0249, unit: "kgCO2e/t*km", geo: "Europe", source: "ELCD", year: 2005, note: "Electricity driven, cargo" },
+    { name: "Rail freight, diesel", category: "Transport", value: 0.0242, unit: "kgCO2e/t*km", geo: "Europe", source: "ELCD", year: 2005, note: "Diesel driven, cargo" },
+
+    // === Metals ===
+    { name: "Steel sections, BF/EAF route", category: "Metals", value: 1.4541, unit: "kgCO2e/kg", geo: "Global", source: "ELCD", year: 2007, note: "Blast furnace / electric arc" },
+    { name: "Steel hot rolled coil, BF route", category: "Metals", value: 1.8886, unit: "kgCO2e/kg", geo: "Global", source: "ELCD", year: 2007, note: "2-7mm thickness" },
+    { name: "Aluminium sheet, primary", category: "Metals", value: 2.8654, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2005, note: "Including transformation" },
+    { name: "Copper wire", category: "Metals", value: 0.7450, unit: "kgCO2e/kg", geo: "EU 15", source: "ELCD", year: 2000, note: "Pyrometallurgical route" },
+
+    // === Construction ===
+    { name: "Portland cement, CEM I", category: "Construction", value: 0.8851, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2006, note: "CEMBUREAU production mix" },
+    { name: "Pre-cast concrete, C20/25", category: "Construction", value: 0.1180, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2006, note: "Minimum reinforcement" },
+    { name: "Aerated concrete block", category: "Construction", value: 0.4489, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 2004, note: "Expanded clay, 433 kg/m3" },
+
+    // === Plastics ===
+    { name: "Polyethylene, PE-HD granulate", category: "Plastics", value: 1.5668, unit: "kgCO2e/kg", geo: "Europe", source: "ELCD", year: 1999, note: "High density, production mix" },
+    { name: "Polypropylene, PP granulate", category: "Plastics", value: 2.0976, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2005, note: "Crude oil based" },
+    { name: "PET granulate", category: "Plastics", value: 4.1369, unit: "kgCO2e/kg", geo: "EU-27", source: "ELCD", year: 2005, note: "Via DMT route" },
+
+    // === Paper ===
+    { name: "Graphic paper, 79% primary fiber", category: "Paper", value: 0.7691, unit: "kgCO2e/kg", geo: "EU-25", source: "ELCD", year: 2006, note: "21% recycled content" },
+    { name: "Newsprint, recycled", category: "Paper", value: 0.4340, unit: "kgCO2e/kg", geo: "Europe", source: "ecoinvent", year: 2000, note: "100% recycled fiber" },
 ];
 
 function setQuery(q) {
@@ -228,7 +239,8 @@ function search() {
     for (var i = 0; i < scored.length; i++) {
         var f = scored[i].factor;
         html += '<div class="card">';
-        html += '<div class="card-name">' + f.name + '<span class="badge badge-free">ELCD</span></div>';
+        var badgeClass = f.source === 'ecoinvent' ? 'badge-pro' : 'badge-free';
+        html += '<div class="card-name">' + f.name + '<span class="badge ' + badgeClass + '">' + f.source + '</span></div>';
         html += '<div class="card-meta">';
         html += 'Category: ' + f.category + '<br/>';
         html += 'Geography: ' + f.geo + ' · Year: ' + f.year + '<br/>';
