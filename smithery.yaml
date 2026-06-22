@@ -4,9 +4,9 @@
 name: carbon-factor-matcher
 description: >
   MCP server for intelligent emission factor matching from ELCD and ecoinvent
-  databases. Supports carbon accounting, LCA, and ESG reporting with AI-powered
-  semantic search and 5-dimension data quality assessment.
-version: 1.0.9
+  databases. Supports carbon accounting, LCA, and ESG reporting with hybrid
+  retrieval and 5-dimension data quality assessment. No external LLM API needed.
+version: 2.0.0
 author: nikeandocean
 homepage: https://nikeandocean.github.io/carbon-factor-matcher/
 repository: https://github.com/nikeandocean/carbon-factor-matcher
@@ -20,17 +20,6 @@ pythonVersion: "3.11"
 
 # Environment variables required
 env:
-  - name: LLM_API_KEY
-    description: >
-      API key for the LLM (DeepSeek, OpenAI, etc.) for Pro-tier hybrid matching.
-      Leave empty to use free-tier keyword search only.
-    required: false
-  - name: LLM_BASE_URL
-    description: Base URL for the LLM API
-    default: https://api.deepseek.com
-  - name: LLM_MODEL
-    description: LLM model name
-    default: deepseek-chat
   - name: CARBON_FACTOR_LICENSE_KEY
     description: License key for Pro/Enterprise features
     required: false
@@ -43,18 +32,20 @@ tools:
   - name: factor_match
     description: >
       Intelligent emission factor matching for carbon accounting and LCA.
-      Takes a natural-language activity description and returns the best-matching
-      emission factor with CO2-equivalent intensity, confidence score, and reasoning.
-      Free: ELCD keyword search (~600 European factors). Pro: embedding + LLM hybrid
-      matching over ecoinvent (~21,000 global factors) with 5-dimension quality ratings.
+      Takes a natural-language activity description and returns ranked candidate
+      factors with CO2-equivalent intensity, data quality ratings, and scores.
+      Free: ELCD keyword search (~600 European factors). Pro: embedding + quality
+      hybrid matching over ecoinvent (~21,000 global factors) with 5-dimension
+      quality assessment. The calling agent selects the best match from candidates.
     args:
       activity_data:
         type: string
         description: >
           Natural-language description of the activity, material, or process to match.
           Examples: "Factory in Shenzhen, 10kV industrial electricity, 2024",
-          "diesel combustion for freight transport, EU", "水泥生产, 新型干法窑".
-          Supports both Chinese and English.
+          "diesel combustion for freight transport, EU", "cement production, rotary kiln".
+          IMPORTANT: The database is in English. If the user input is in another language,
+          translate to English keywords before querying (e.g. 水泥→cement, 柴油→diesel, Zement→cement).
         required: true
       top_k:
         type: integer
@@ -72,10 +63,10 @@ tools:
         data:
           type: object
           description: >
-            The main response payload containing matched emission factors with fields:
-            selected_factor (id, name, value in kgCO2e/unit, unit, category, geography,
-            applicability, source, source_year), confidence (0-1 float), reason (matching
-            explanation), and alternatives (top 3 runner-up factors).
+            The main response payload. Pro tier contains 'candidates' array with ranked
+            emission factors (id, name, value, unit, category, geography, applicability,
+            source, source_year, hybrid_score, quality_ratings, quality_score, final_score)
+            and 'selection_guidance'. Free tier contains 'factors' array with basic info.
         upgrade_hint:
           type: string
           nullable: true
@@ -99,8 +90,10 @@ tools:
       query:
         type: string
         description: >
-          Search keyword — material name, process, or activity.
-          Examples: "electricity", "diesel", "transport", "cement", "聚乙烯".
+          Search keyword — material name, process, or activity (in English).
+          Examples: "electricity", "diesel", "transport", "cement", "polyethylene".
+          IMPORTANT: The database is in English. Translate non-English terms to English
+          before querying (e.g. 聚乙烯→polyethylene, 水泥→cement, Stahl→steel).
         required: true
       category:
         type: string
