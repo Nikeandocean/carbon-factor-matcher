@@ -2,14 +2,16 @@
 
 # Carbon Factor Matcher — MCP Server for Carbon Accounting
 
-An MCP (Model Context Protocol) server that connects LLMs with carbon footprint databases. It provides intelligent emission factor matching for carbon accounting, LCA (Life Cycle Assessment), and ESG reporting applications.
+An MCP (Model Context Protocol) server that connects AI agents with carbon emission factor databases. It provides intelligent emission factor matching for carbon accounting, LCA (Life Cycle Assessment), and ESG reporting applications.
 
 ## What is this MCP?
 
-Carbon Factor Matcher helps AI agents and LLM-based applications find the most appropriate emission factors from standardized environmental databases. It uses a two-stage hybrid search algorithm:
+Carbon Factor Matcher helps AI agents find the most appropriate emission factors from standardized environmental databases. It uses a hybrid search algorithm:
 
-1. **Embedding-based rough filtering** — Semantic similarity to find candidate factors
-2. **LLM-based fine ranking** — AI-powered selection with reasoning and confidence scores
+1. **Keyword + Embedding retrieval** — Field-weighted keyword scoring and semantic similarity to find candidate factors
+2. **Quality-based ranking** — 5-dimension data quality assessment to rank candidates
+
+The calling AI agent selects the best match from the ranked candidates. No external LLM API needed.
 
 ### Supported Databases
 
@@ -20,11 +22,8 @@ Carbon Factor Matcher helps AI agents and LLM-based applications find the most a
 
 - 5-dimension data quality rating (technology, geography, source, time, factor type)
 - Multi-language support (Chinese/English activity descriptions)
+- Zero configuration — works out of the box after installation
 - MCP-compatible — works with Claude, Cursor, Windsurf, Cline, Continue, and any MCP client
-
-### Query Example (Claude Code)
-
-![Carbon Factor Matcher query example in Claude Code](demo-query.png)
 
 ## Installation
 
@@ -130,7 +129,7 @@ The Free tier works immediately after installation (300 queries/day, ELCD databa
 | Plan | Price | Features |
 |------|-------|----------|
 | **Free** | $0 | ELCD database (~600 factors), keyword search, 300 queries/day |
-| **Pro** | $5 (one-time) | ELCD + ecoinvent (~21,000 factors), LLM-powered matching, unlimited queries, data quality rating |
+| **Pro** | $5 (one-time) | ELCD + ecoinvent (~21,000 factors), hybrid matching with quality rating, unlimited queries |
 
 ### Purchase License Key
 
@@ -145,10 +144,7 @@ After purchase, you'll receive a license key via email. Set it as an environment
       "command": "npx",
       "args": ["-y", "@nikeandocean/carbon-factor-matcher"],
       "env": {
-        "CARBON_FACTOR_LICENSE_KEY": "PRO-xxxx-xxxx",
-        "LLM_API_KEY": "sk-xxxx",
-        "LLM_BASE_URL": "https://api.deepseek.com",
-        "LLM_MODEL": "deepseek-chat"
+        "CARBON_FACTOR_LICENSE_KEY": "PRO-xxxx-xxxx"
       }
     }
   }
@@ -160,16 +156,15 @@ After purchase, you'll receive a license key via email. Set it as an environment
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `CARBON_FACTOR_LICENSE_KEY` | Your license key (empty = Free tier) | — |
-| `LLM_API_KEY` | LLM API key for Pro matching (DeepSeek/OpenAI) | — |
-| `LLM_BASE_URL` | LLM endpoint URL | `https://api.deepseek.com` |
-| `LLM_MODEL` | LLM model name | `deepseek-chat` |
 | `CARBON_FACTOR_DATA_DIR` | Path to local factor database | `data/factors` |
+
+Note: No external LLM API configuration needed. The calling AI agent handles final factor selection.
 
 ## Available Tools
 
 ### `factor_match`
 
-Match activity data to the best emission factor. Free tier uses keyword search; Pro tier uses hybrid embedding + LLM matching with quality assessment.
+Match activity data to emission factors. Free tier uses keyword search; Pro tier uses hybrid embedding + quality ranking. Returns ranked candidates for the calling agent to select from.
 
 **Input:**
 ```json
@@ -179,18 +174,22 @@ Match activity data to the best emission factor. Free tier uses keyword search; 
 }
 ```
 
-**Output:**
+**Output (Pro tier):**
 ```json
 {
-  "selected_factor": {
-    "id": "elec-cn-south-10kv-2024",
-    "name": "Electricity, 10kV, South China Grid",
-    "value": 0.6101,
-    "unit": "kgCO2e/kWh"
-  },
-  "confidence": 0.92,
-  "reason": "Best match for industrial electricity in South China region",
-  "alternatives": [...]
+  "candidates": [
+    {
+      "id": "elec-cn-south-10kv-2024",
+      "name": "Electricity, 10kV, South China Grid",
+      "value": 0.6101,
+      "unit": "kgCO2e/kWh",
+      "hybrid_score": 0.85,
+      "quality_ratings": {"tech_representativeness": 1, "source_reliability": 1, "...": "..."},
+      "quality_score": 0.9,
+      "final_score": 0.875
+    }
+  ],
+  "selection_guidance": "从候选列表中选择最匹配的排放因子..."
 }
 ```
 
@@ -226,7 +225,6 @@ Get full metadata for a specific factor.
 
 - Node.js 18+ (for `npx`)
 - Python 3.11+ (auto-installed via pip)
-- LLM API key (Pro tier only — DeepSeek recommended)
 
 ## Support
 
