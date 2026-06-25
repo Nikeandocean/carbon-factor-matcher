@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Carbon Factor Matcher</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0d1117;
+            color: #ecf2f8;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+        }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .page { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
+        h1 { font-size: 2rem; margin-bottom: 8px; }
+        .updated { color: #8b949e; font-size: 0.85rem; margin-bottom: 32px; }
+        h2 { font-size: 1.25rem; margin: 28px 0 10px; color: #c9d1d9; }
+        p, li { color: #b1bac4; font-size: 0.95rem; margin-bottom: 10px; }
+        ul { padding-left: 24px; margin-bottom: 10px; }
+        .back { display: inline-block; margin-bottom: 24px; font-size: 0.9rem; }
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #21262d;
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-top: 40px;
+        }
+        .site-footer a { color: #8b949e; margin: 0 8px; }
+        .site-footer a:hover { color: #ecf2f8; }
+    </style>
+</head>
+<body>
+
+<div class="page">
+    <a href="/" class="back">← Back to Home</a>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: June 25, 2026</p>
+
+    <h2>1. Operator</h2>
+    <p>This privacy policy describes how <strong>Zero Carbon Logic</strong> ("we", "us") handles data in connection with the Carbon Factor Matcher MCP service.</p>
+
+    <h2>2. Data We Collect</h2>
+    <p>We collect minimal data necessary to operate the service:</p>
+    <ul>
+        <li><strong>License key hash</strong> — A one-way hash of your license key is stored locally (SQLite) to enforce the 300 queries/day limit for Free tier users and to track usage statistics. The original license key is not stored.</li>
+        <li><strong>Anonymized query terms</strong> — Search queries are processed in-memory for factor matching and are not persisted beyond the active request.</li>
+    </ul>
+
+    <h2>3. Data We Do NOT Collect</h2>
+    <ul>
+        <li><strong>LLM context or prompts</strong> — Your AI agent's conversation context, system prompts, and any data passed to the MCP tool are processed ephemerally and never logged or stored.</li>
+        <li><strong>Personal credentials</strong> — We do not collect names, email addresses, or any personally identifiable information (PII) through the MCP service itself.</li>
+        <li><strong>Payment information</strong> — All payment processing is handled entirely by <a href="https://www.paddle.com" target="_blank">Paddle</a>. We never see or store your credit card details, billing address, or payment credentials.</li>
+    </ul>
+
+    <h2>4. How Data Is Used</h2>
+    <ul>
+        <li>License key hashes are used solely for usage tracking and rate limiting.</li>
+        <li>No data is sold, rented, or shared with third parties for marketing or advertising purposes.</li>
+    </ul>
+
+    <h2>5. Data Storage &amp; Security</h2>
+    <ul>
+        <li>Usage tracking data is stored locally on the server in a SQLite database.</li>
+        <li>Communication between your MCP client and our server is encrypted via HTTPS (TLS).</li>
+        <li>Factor data (emission factors) is served from Cloudflare R2 and cached in memory. This data is publicly sourced (ELCD) or commercially licensed (ecoinvent) and contains no personal information.</li>
+    </ul>
+
+    <h2>6. Third-Party Services</h2>
+    <ul>
+        <li><strong>Paddle</strong> — Payment processing and license key generation. Paddle's privacy policy applies to all checkout and billing data. See <a href="https://www.paddle.com/legal/privacy" target="_blank">Paddle Privacy Policy</a>.</li>
+        <li><strong>Cloudflare</strong> — Hosting, CDN, and R2 storage. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare Privacy Policy</a>.</li>
+    </ul>
+
+    <h2>7. Your Rights</h2>
+    <p>You may request deletion of your usage data by contacting us at <a href="mailto:nikeandocean@gmail.com">nikeandocean@gmail.com</a>. We will respond within 30 days.</p>
+
+    <h2>8. Changes to This Policy</h2>
+    <p>We may update this privacy policy from time to time. Changes will be posted on this page with an updated revision date.</p>
+
+    <h2>9. Contact</h2>
+    <p>For privacy-related inquiries, contact us at <a href="mailto:nikeandocean@gmail.com">nikeandocean@gmail.com</a>.</p>
+</div>
+
+<footer class="site-footer">
+    <p>
+        <a href="terms.html">Terms of Service</a>
+        <a href="refund.html">Refund Policy</a>
+        <a href="privacy.html">Privacy Policy</a>
+    </p>
+    <p style="margin-top: 8px;">© 2026 Zero Carbon Logic. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
