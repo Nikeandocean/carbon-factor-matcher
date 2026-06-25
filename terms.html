@@ -4,67 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service — Carbon Factor Matcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #0d1117;
-            color: #ecf2f8;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: #06090f;
+            color: #cbd5e1;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             line-height: 1.7;
         }
-        a { color: #58a6ff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .page { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
-        h1 { font-size: 2rem; margin-bottom: 8px; }
-        .updated { color: #8b949e; font-size: 0.85rem; margin-bottom: 32px; }
-        h2 { font-size: 1.25rem; margin: 28px 0 10px; color: #c9d1d9; }
-        p, li { color: #b1bac4; font-size: 0.95rem; margin-bottom: 10px; }
-        ul { padding-left: 24px; margin-bottom: 10px; }
-        .back { display: inline-block; margin-bottom: 24px; font-size: 0.9rem; }
+        a { color: #34d399; text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #6ee7b7; }
+        .page { max-width: 740px; margin: 0 auto; padding: 60px 24px 40px; }
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 32px;
+            font-size: 0.88rem;
+            color: #64748b;
+            transition: color 0.2s;
+        }
+        .back:hover { color: #34d399; }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #f1f5f9;
+        }
+        .updated { color: #475569; font-size: 0.85rem; margin-bottom: 40px; }
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 32px 0 12px;
+            color: #e2e8f0;
+        }
+        p, li { font-size: 0.95rem; margin-bottom: 10px; color: #94a3b8; }
+        ul { padding-left: 24px; margin-bottom: 12px; }
         .highlight-box {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 16px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 18px 22px;
             margin: 16px 0;
         }
         .highlight-box p { margin: 0; }
+        .highlight-box.emerald {
+            border-color: rgba(16,185,129,0.2);
+            background: rgba(16,185,129,0.05);
+        }
         .site-footer {
             text-align: center;
-            padding: 30px 20px;
-            border-top: 1px solid #21262d;
-            color: #8b949e;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #475569;
             font-size: 0.85rem;
-            margin-top: 40px;
+            margin-top: 60px;
         }
-        .site-footer a { color: #8b949e; margin: 0 8px; }
-        .site-footer a:hover { color: #ecf2f8; }
-        .site-footer .support { margin-top: 10px; font-size: 0.82rem; }
-        .site-footer .support a { color: #58a6ff; }
+        .site-footer a { color: #64748b; margin: 0 10px; transition: color 0.2s; }
+        .site-footer a:hover { color: #34d399; }
+        .site-footer .support { margin-top: 12px; font-size: 0.82rem; }
+        .site-footer .support a { color: #34d399; }
+        @media (max-width: 640px) {
+            h1 { font-size: 1.8rem; }
+            .page { padding: 40px 16px 20px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="page">
-    <a href="/" class="back">&larr; Back to Home</a>
+    <a href="/" class="back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
+        Back to Home
+    </a>
     <h1>Terms of Service</h1>
     <p class="updated">Last updated: June 25, 2026</p>
 
     <h2>1. Operator</h2>
-    <p>This service is operated by <strong>Tao Yan</strong>, trading as <strong>Zero Carbon Logic</strong>. By using Carbon Factor Matcher, you agree to these Terms of Service.</p>
+    <p>This service is operated by <strong style="color:#e2e8f0">Tao Yan</strong>, trading as <strong style="color:#e2e8f0">Zero Carbon Logic</strong>. By using Carbon Factor Matcher, you agree to these Terms of Service.</p>
 
     <h2>2. Service Description</h2>
     <p>Carbon Factor Matcher is an MCP (Model Context Protocol) server that provides intelligent emission factor matching for carbon accounting and Life Cycle Assessment (LCA). It connects AI agents with emission factor databases including ELCD (~600 factors) and ecoinvent (~21,000 factors, Pro tier).</p>
 
     <h2>3. Order Processing &amp; Merchant of Record</h2>
-    <div class="highlight-box">
-        <p>Our order process is conducted by our online reseller <strong>Paddle.com</strong>. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries related to payment and handles returns. Your payment details are processed entirely by Paddle and are never stored on our servers.</p>
+    <div class="highlight-box emerald">
+        <p>Our order process is conducted by our online reseller <strong style="color:#e2e8f0">Paddle.com</strong>. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries related to payment and handles returns. Your payment details are processed entirely by Paddle and are never stored on our servers.</p>
     </div>
 
     <h2>4. License Tiers</h2>
     <ul>
-        <li><strong>Free Tier</strong> &mdash; Keyword-based search over ELCD, up to 300 queries per day. No license key required.</li>
-        <li><strong>Pro Tier</strong> &mdash; Hybrid matching (keyword + embedding similarity), ecoinvent access, 5-dimension data quality ratings, unlimited queries. Requires a one-time purchase license key.</li>
+        <li><strong style="color:#e2e8f0">Free Tier</strong> &mdash; Keyword-based search over ELCD, up to 300 queries per day. No license key required.</li>
+        <li><strong style="color:#e2e8f0">Pro Tier</strong> &mdash; Hybrid matching (keyword + embedding similarity), ecoinvent access, 5-dimension data quality ratings, unlimited queries. Requires a one-time purchase license key.</li>
     </ul>
 
     <h2>5. Delivery</h2>
@@ -87,7 +120,7 @@
     </ul>
 
     <h2>8. Data Accuracy</h2>
-    <p>Emission factors are sourced from publicly available databases (ELCD) and licensed databases (ecoinvent). While we strive for accuracy, the software is provided <strong>&ldquo;as is&rdquo;</strong> without warranties of any kind. Users are responsible for verifying factor suitability for their specific use case.</p>
+    <p>Emission factors are sourced from publicly available databases (ELCD) and licensed databases (ecoinvent). While we strive for accuracy, the software is provided <strong style="color:#e2e8f0">&ldquo;as is&rdquo;</strong> without warranties of any kind. Users are responsible for verifying factor suitability for their specific use case.</p>
 
     <h2>9. Refund Policy</h2>
     <p>Please refer to our <a href="refund.html">Refund Policy</a> for details on our 14-day refund guarantee.</p>
@@ -101,7 +134,7 @@
     <h2>12. Customer Support</h2>
     <p>For questions about these terms, your order, or technical support, contact us at:</p>
     <div class="highlight-box">
-        <p><strong>Email:</strong> <a href="mailto:nikeandocean@gmail.com">nikeandocean@gmail.com</a></p>
+        <p><strong style="color:#e2e8f0">Email:</strong> <a href="mailto:nikeandocean@gmail.com">nikeandocean@gmail.com</a></p>
         <p>We aim to respond within 24 hours on business days.</p>
     </div>
 </div>
@@ -113,7 +146,7 @@
         <a href="privacy.html">Privacy Policy</a>
     </p>
     <p class="support">Support: <a href="mailto:nikeandocean@gmail.com">nikeandocean@gmail.com</a></p>
-    <p style="margin-top: 8px;">&copy; 2026 Tao Yan / Zero Carbon Logic. All rights reserved.</p>
+    <p style="margin-top: 10px;">&copy; 2026 Tao Yan / Zero Carbon Logic. All rights reserved.</p>
 </footer>
 
 </body>
