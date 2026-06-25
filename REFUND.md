@@ -1,6 +1,6 @@
 # Refund Policy
 
-**Operator:** Zero Carbon Logic
+**Operator:** Tao Yan, trading as Zero Carbon Logic
 
 **Last updated:** June 25, 2026
 
