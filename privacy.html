@@ -10,13 +10,14 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background: #06090f;
-            color: #cbd5e1;
+            background: #ffffff;
+            color: #374151;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
         }
-        a { color: #34d399; text-decoration: none; transition: color 0.2s; }
-        a:hover { color: #6ee7b7; }
+        a { color: #059669; text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #047857; }
         .page { max-width: 740px; margin: 0 auto; padding: 60px 24px 40px; }
         .back {
             display: inline-flex;
@@ -24,45 +25,38 @@
             gap: 6px;
             margin-bottom: 32px;
             font-size: 0.88rem;
-            color: #64748b;
+            color: #9ca3af;
             transition: color 0.2s;
         }
-        .back:hover { color: #34d399; }
+        .back:hover { color: #111827; }
         h1 {
             font-size: 2.2rem;
             font-weight: 800;
             margin-bottom: 8px;
-            color: #f1f5f9;
+            color: #111827;
+            letter-spacing: -0.01em;
         }
-        .updated { color: #475569; font-size: 0.85rem; margin-bottom: 40px; }
+        .updated { color: #9ca3af; font-size: 0.85rem; margin-bottom: 40px; }
         h2 {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             margin: 32px 0 12px;
-            color: #e2e8f0;
+            color: #111827;
         }
-        p, li { font-size: 0.95rem; margin-bottom: 10px; color: #94a3b8; }
+        p, li { font-size: 0.95rem; margin-bottom: 10px; color: #6b7280; }
         ul { padding-left: 24px; margin-bottom: 12px; }
-        .highlight-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 18px 22px;
-            margin: 16px 0;
-        }
-        .highlight-box p { margin: 0; }
         .site-footer {
             text-align: center;
             padding: 40px 20px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            color: #475569;
+            border-top: 1px solid #f3f4f6;
+            color: #9ca3af;
             font-size: 0.85rem;
             margin-top: 60px;
         }
-        .site-footer a { color: #64748b; margin: 0 10px; transition: color 0.2s; }
-        .site-footer a:hover { color: #34d399; }
+        .site-footer a { color: #6b7280; margin: 0 10px; }
+        .site-footer a:hover { color: #111827; }
         .site-footer .support { margin-top: 12px; font-size: 0.82rem; }
-        .site-footer .support a { color: #34d399; }
+        .site-footer .support a { color: #059669; }
         @media (max-width: 640px) {
             h1 { font-size: 1.8rem; }
             .page { padding: 40px 16px 20px; }
@@ -80,20 +74,20 @@
     <p class="updated">Last updated: June 25, 2026</p>
 
     <h2>1. Operator</h2>
-    <p>This privacy policy describes how <strong style="color:#e2e8f0">Tao Yan</strong>, trading as <strong style="color:#e2e8f0">Zero Carbon Logic</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;) handles data in connection with the Carbon Factor Matcher MCP service.</p>
+    <p>This privacy policy describes how <strong style="color:#111827">Tao Yan</strong>, trading as <strong style="color:#111827">Zero Carbon Logic</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;) handles data in connection with the Carbon Factor Matcher MCP service.</p>
 
     <h2>2. Data We Collect</h2>
     <p>We collect minimal data necessary to operate the service:</p>
     <ul>
-        <li><strong style="color:#e2e8f0">License key hash</strong> &mdash; A one-way hash of your license key is stored locally (SQLite) to enforce the 300 queries/day limit for Free tier users and to track usage statistics. The original license key is not stored.</li>
-        <li><strong style="color:#e2e8f0">Anonymized query terms</strong> &mdash; Search queries are processed in-memory for factor matching and are not persisted beyond the active request.</li>
+        <li><strong style="color:#111827">License key hash</strong> &mdash; A one-way hash of your license key is stored locally (SQLite) to enforce the 300 queries/day limit for Free tier users and to track usage statistics. The original license key is not stored.</li>
+        <li><strong style="color:#111827">Anonymized query terms</strong> &mdash; Search queries are processed in-memory for factor matching and are not persisted beyond the active request.</li>
     </ul>
 
     <h2>3. Data We Do NOT Collect</h2>
     <ul>
-        <li><strong style="color:#e2e8f0">LLM context or prompts</strong> &mdash; Your AI agent&rsquo;s conversation context, system prompts, and any data passed to the MCP tool are processed ephemerally and never logged or stored.</li>
-        <li><strong style="color:#e2e8f0">Personal credentials</strong> &mdash; We do not collect names, email addresses, or any personally identifiable information (PII) through the MCP service itself.</li>
-        <li><strong style="color:#e2e8f0">Payment information</strong> &mdash; All payment processing is handled entirely by <a href="https://www.paddle.com" target="_blank">Paddle</a>. We never see or store your credit card details, billing address, or payment credentials.</li>
+        <li><strong style="color:#111827">LLM context or prompts</strong> &mdash; Your AI agent&rsquo;s conversation context, system prompts, and any data passed to the MCP tool are processed ephemerally and never logged or stored.</li>
+        <li><strong style="color:#111827">Personal credentials</strong> &mdash; We do not collect names, email addresses, or any personally identifiable information (PII) through the MCP service itself.</li>
+        <li><strong style="color:#111827">Payment information</strong> &mdash; All payment processing is handled entirely by <a href="https://www.paddle.com" target="_blank">Paddle</a>. We never see or store your credit card details, billing address, or payment credentials.</li>
     </ul>
 
     <h2>4. How Data Is Used</h2>
@@ -111,8 +105,8 @@
 
     <h2>6. Third-Party Services</h2>
     <ul>
-        <li><strong style="color:#e2e8f0">Paddle</strong> &mdash; Payment processing and license key generation. Paddle&rsquo;s privacy policy applies to all checkout and billing data. See <a href="https://www.paddle.com/legal/privacy" target="_blank">Paddle Privacy Policy</a>.</li>
-        <li><strong style="color:#e2e8f0">Cloudflare</strong> &mdash; Hosting, CDN, and R2 storage. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare Privacy Policy</a>.</li>
+        <li><strong style="color:#111827">Paddle</strong> &mdash; Payment processing and license key generation. Paddle&rsquo;s privacy policy applies to all checkout and billing data. See <a href="https://www.paddle.com/legal/privacy" target="_blank">Paddle Privacy Policy</a>.</li>
+        <li><strong style="color:#111827">Cloudflare</strong> &mdash; Hosting, CDN, and R2 storage. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare Privacy Policy</a>.</li>
     </ul>
 
     <h2>7. Your Rights</h2>

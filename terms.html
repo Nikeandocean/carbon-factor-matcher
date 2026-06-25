@@ -10,13 +10,14 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background: #06090f;
-            color: #cbd5e1;
+            background: #ffffff;
+            color: #374151;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
         }
-        a { color: #34d399; text-decoration: none; transition: color 0.2s; }
-        a:hover { color: #6ee7b7; }
+        a { color: #059669; text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #047857; }
         .page { max-width: 740px; margin: 0 auto; padding: 60px 24px 40px; }
         .back {
             display: inline-flex;
@@ -24,49 +25,50 @@
             gap: 6px;
             margin-bottom: 32px;
             font-size: 0.88rem;
-            color: #64748b;
+            color: #9ca3af;
             transition: color 0.2s;
         }
-        .back:hover { color: #34d399; }
+        .back:hover { color: #111827; }
         h1 {
             font-size: 2.2rem;
             font-weight: 800;
             margin-bottom: 8px;
-            color: #f1f5f9;
+            color: #111827;
+            letter-spacing: -0.01em;
         }
-        .updated { color: #475569; font-size: 0.85rem; margin-bottom: 40px; }
+        .updated { color: #9ca3af; font-size: 0.85rem; margin-bottom: 40px; }
         h2 {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             margin: 32px 0 12px;
-            color: #e2e8f0;
+            color: #111827;
         }
-        p, li { font-size: 0.95rem; margin-bottom: 10px; color: #94a3b8; }
+        p, li { font-size: 0.95rem; margin-bottom: 10px; color: #6b7280; }
         ul { padding-left: 24px; margin-bottom: 12px; }
         .highlight-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
             padding: 18px 22px;
             margin: 16px 0;
         }
         .highlight-box p { margin: 0; }
         .highlight-box.emerald {
-            border-color: rgba(16,185,129,0.2);
-            background: rgba(16,185,129,0.05);
+            background: #f0fdf4;
+            border-color: #bbf7d0;
         }
         .site-footer {
             text-align: center;
             padding: 40px 20px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            color: #475569;
+            border-top: 1px solid #f3f4f6;
+            color: #9ca3af;
             font-size: 0.85rem;
             margin-top: 60px;
         }
-        .site-footer a { color: #64748b; margin: 0 10px; transition: color 0.2s; }
-        .site-footer a:hover { color: #34d399; }
+        .site-footer a { color: #6b7280; margin: 0 10px; }
+        .site-footer a:hover { color: #111827; }
         .site-footer .support { margin-top: 12px; font-size: 0.82rem; }
-        .site-footer .support a { color: #34d399; }
+        .site-footer .support a { color: #059669; }
         @media (max-width: 640px) {
             h1 { font-size: 1.8rem; }
             .page { padding: 40px 16px 20px; }
@@ -84,20 +86,20 @@
     <p class="updated">Last updated: June 25, 2026</p>
 
     <h2>1. Operator</h2>
-    <p>This service is operated by <strong style="color:#e2e8f0">Tao Yan</strong>, trading as <strong style="color:#e2e8f0">Zero Carbon Logic</strong>. By using Carbon Factor Matcher, you agree to these Terms of Service.</p>
+    <p>This service is operated by <strong style="color:#111827">Tao Yan</strong>, trading as <strong style="color:#111827">Zero Carbon Logic</strong>. By using Carbon Factor Matcher, you agree to these Terms of Service.</p>
 
     <h2>2. Service Description</h2>
     <p>Carbon Factor Matcher is an MCP (Model Context Protocol) server that provides intelligent emission factor matching for carbon accounting and Life Cycle Assessment (LCA). It connects AI agents with emission factor databases including ELCD (~600 factors) and ecoinvent (~21,000 factors, Pro tier).</p>
 
     <h2>3. Order Processing &amp; Merchant of Record</h2>
     <div class="highlight-box emerald">
-        <p>Our order process is conducted by our online reseller <strong style="color:#e2e8f0">Paddle.com</strong>. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries related to payment and handles returns. Your payment details are processed entirely by Paddle and are never stored on our servers.</p>
+        <p>Our order process is conducted by our online reseller <strong style="color:#111827">Paddle.com</strong>. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries related to payment and handles returns. Your payment details are processed entirely by Paddle and are never stored on our servers.</p>
     </div>
 
     <h2>4. License Tiers</h2>
     <ul>
-        <li><strong style="color:#e2e8f0">Free Tier</strong> &mdash; Keyword-based search over ELCD, up to 300 queries per day. No license key required.</li>
-        <li><strong style="color:#e2e8f0">Pro Tier</strong> &mdash; Hybrid matching (keyword + embedding similarity), ecoinvent access, 5-dimension data quality ratings, unlimited queries. Requires a one-time purchase license key.</li>
+        <li><strong style="color:#111827">Free Tier</strong> &mdash; Keyword-based search over ELCD, up to 300 queries per day. No license key required.</li>
+        <li><strong style="color:#111827">Pro Tier</strong> &mdash; Hybrid matching (keyword + embedding similarity), ecoinvent access, 5-dimension data quality ratings, unlimited queries. Requires a one-time purchase license key.</li>
     </ul>
 
     <h2>5. Delivery</h2>
@@ -120,7 +122,7 @@
     </ul>
 
     <h2>8. Data Accuracy</h2>
-    <p>Emission factors are sourced from publicly available databases (ELCD) and licensed databases (ecoinvent). While we strive for accuracy, the software is provided <strong style="color:#e2e8f0">&ldquo;as is&rdquo;</strong> without warranties of any kind. Users are responsible for verifying factor suitability for their specific use case.</p>
+    <p>Emission factors are sourced from publicly available databases (ELCD) and licensed databases (ecoinvent). While we strive for accuracy, the software is provided <strong style="color:#111827">&ldquo;as is&rdquo;</strong> without warranties of any kind. Users are responsible for verifying factor suitability for their specific use case.</p>
 
     <h2>9. Refund Policy</h2>
     <p>Please refer to our <a href="refund.html">Refund Policy</a> for details on our 14-day refund guarantee.</p>
@@ -134,7 +136,7 @@
     <h2>12. Customer Support</h2>
     <p>For questions about these terms, your order, or technical support, contact us at:</p>
     <div class="highlight-box">
-        <p><strong style="color:#e2e8f0">Email:</strong> <a href="mailto:nikeandocean@gmail.com">nikeandocean@gmail.com</a></p>
+        <p><strong style="color:#111827">Email:</strong> <a href="mailto:nikeandocean@gmail.com">nikeandocean@gmail.com</a></p>
         <p>We aim to respond within 24 hours on business days.</p>
     </div>
 </div>
