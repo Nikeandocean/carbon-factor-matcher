@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Factor Matcher — Intelligent Emission Factor Matching for Carbon Accounting &amp; LCA</title>
+    <meta name="description" content="An MCP server connecting AI agents with 600+ ELCD and 6,000+ ecoinvent emission factors. Hybrid search with keyword scoring, embedding similarity, and hybrid keyword + embedding search.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #ffffff;
+            color: #374151;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: #059669; text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #047857; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+        /* Nav */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #111827;
+        }
+        .nav-brand svg { flex-shrink: 0; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: #6b7280; font-size: 0.88rem; font-weight: 500; }
+        .nav-links a:hover { color: #111827; }
+        .nav-cta {
+            background: #111827;
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .nav-cta:hover { background: #1f2937; color: #fff !important; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #059669;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: 3.4rem;
+            font-weight: 800;
+            line-height: 1.12;
+            margin-bottom: 20px;
+            color: #111827;
+            letter-spacing: -0.02em;
+        }
+        .hero .subtitle {
+            color: #6b7280;
+            font-size: 1.2rem;
+            max-width: 540px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #111827;
+            color: #fff;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: background 0.2s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #1f2937;
+            transform: translateY(-1px);
+            color: #fff;
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            color: #111827;
+        }
+
+        /* Stats */
+        .stats-bar {
+            background: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f3f4f6;
+            padding: 40px 20px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 64px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .stat { text-align: center; }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #111827;
+        }
+        .stat-label { font-size: 0.82rem; color: #9ca3af; margin-top: 4px; font-weight: 500; }
+
+        /* Section titles */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #111827;
+            letter-spacing: -0.01em;
+        }
+        .section-desc {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.05rem;
+            max-width: 500px;
+            margin: 0 auto 48px;
+        }
+
+        /* Features */
+        .features { padding: 80px 0; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 16px;
+            padding: 28px 24px;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        .feature-card:hover {
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border-color: #e5e7eb;
+        }
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            background: #f0fdf4;
+        }
+        .feature-icon svg { width: 22px; height: 22px; color: #059669; }
+        .feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: #111827; }
+        .feature-card p { color: #6b7280; font-size: 0.9rem; line-height: 1.6; }
+
+        /* How it works */
+        .how-it-works { padding: 80px 0; background: #f9fafb; }
+        .steps {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .step {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            max-width: 260px;
+        }
+        .step-num {
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 50%;
+            background: #111827;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0 auto 16px;
+        }
+        .step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: #111827; }
+        .step p { color: #6b7280; font-size: 0.88rem; }
+
+        /* Setup */
+        .setup-section { padding: 80px 0; }
+        .code-block {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 24px 28px;
+            overflow-x: auto;
+            font-family: "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #374151;
+            position: relative;
+        }
+        .code-block .comment { color: #9ca3af; }
+        .code-block .key { color: #059669; }
+        .code-block .str { color: #2563eb; }
+        .code-label {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 0.7rem;
+            color: #9ca3af;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Pricing */
+        .pricing-section { padding: 80px 0; background: #f9fafb; }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .plan-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 36px 28px;
+            text-align: center;
+            transition: box-shadow 0.3s;
+        }
+        .plan-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+        .plan-card.pro {
+            border-color: #111827;
+            position: relative;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+        .plan-card .badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111827;
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 16px;
+            border-radius: 100px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .plan-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: #111827; }
+        .plan-card .price {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 12px 0;
+            color: #111827;
+        }
+        .plan-card .price span { font-size: 0.9rem; font-weight: 400; color: #9ca3af; }
+        .plan-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+        .plan-card ul li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+        .plan-card ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 16px;
+            height: 16px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23059669'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+        .buy-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #111827;
+            color: #ffffff;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s, transform 0.2s;
+            width: 100%;
+        }
+        .buy-btn:hover {
+            background: #1f2937;
+            transform: translateY(-1px);
+            text-decoration: none;
+            color: #fff;
+        }
+        .buy-btn:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .delivery-note {
+            color: #9ca3af;
+            font-size: 0.82rem;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        /* MoR */
+        .mor-notice {
+            text-align: center;
+            padding: 24px;
+            color: #9ca3af;
+            font-size: 0.82rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #f3f4f6;
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+        .site-footer a { color: #6b7280; margin: 0 10px; }
+        .site-footer a:hover { color: #111827; }
+        .site-footer .support { margin-top: 12px; font-size: 0.82rem; }
+        .site-footer .support a { color: #059669; }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.4rem; }
+            .stats { gap: 32px; flex-wrap: wrap; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+    <div class="nav-brand">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Carbon Factor Matcher
+    </div>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#setup">Setup</a>
+        <a href="#pricing" class="nav-cta">Get Pro</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        MCP Server for Carbon Accounting
+    </div>
+    <h1>Find the Right Emission Factor, Instantly</h1>
+    <p class="subtitle">Connect your AI agent to 6,000+ emission factors with hybrid search, semantic matching, and hybrid keyword + embedding matching.</p>
+    <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Get Started
+        </a>
+        <a href="#setup" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            View Setup
+        </a>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">6,000+</div>
+            <div class="stat-label">Emission Factors</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">5-Dim</div>
+            <div class="stat-label">Quality Rating</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">$5</div>
+            <div class="stat-label">One-time, Lifetime</div>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<section class="features" id="features">
+    <div class="container">
+        <h2 class="section-title">Built for Precision</h2>
+        <p class="section-desc">Every feature designed to get you the most accurate emission factor for your specific use case.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </div>
+                <h3>Hybrid Search Engine</h3>
+                <p>Combines keyword scoring (0.3) with embedding-based semantic similarity (0.7) for precise factor matching. No manual database browsing needed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                </div>
+                <h3>5-Dimension Quality Rating</h3>
+                <p>Each factor rated on technology representativeness, source reliability, geographic fit, time relevance, and factor type — so you pick the best data, not just the first result.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <h3>6,000+ Factors</h3>
+                <p>Access the full ecoinvent 3.10 database (Pro) plus 600+ ELCD factors (Free). Covers electricity, fuels, transport, chemicals, metals, construction, and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                <h3>MCP Native</h3>
+                <p>Standard Model Context Protocol server. Works with Claude Desktop, Cursor, and any MCP-compatible AI agent. One command to install, zero config to start.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-desc">Three steps from installation to precise emission factor matching.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h4>Install</h4>
+                <p>Add the MCP server to your AI agent configuration</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h4>Query</h4>
+                <p>Describe your activity in natural language &mdash; &ldquo;10kV industrial electricity in Guangdong&rdquo;</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h4>Match</h4>
+                <p>Get ranked emission factors with confidence scores and hybrid scores</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Setup -->
+<section class="setup-section" id="setup">
+    <div class="container">
+        <h2 class="section-title">Quick Setup</h2>
+        <p class="section-desc">One configuration block. Works with any MCP-compatible client.</p>
+        <div class="code-block">
+            <span class="code-label">claude_desktop_config.json</span>
+<span class="comment">// Claude Desktop, Cursor, or any MCP client</span>
+{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"carbon-factor-matcher"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@nikeandocean/carbon-factor-matcher"</span>],
+      <span class="key">"env"</span>: {
+        <span class="key">"CARBON_FACTOR_LICENSE_KEY"</span>: <span class="str">"your-pro-key-here"</span>
+      }
+    }
+  }
+}</div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing-section" id="pricing">
+    <div class="container">
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-desc">Start free. Upgrade when you need more factors and precision.</p>
+        <div class="pricing-grid">
+            <div class="plan-card">
+                <h3>Free</h3>
+                <div class="price">$0</div>
+                <ul>
+                    <li>Keyword-based factor search</li>
+                    <li>ELCD database (600+ factors)</li>
+                    <li>300 queries / day</li>
+                    <li>No license key required</li>
+                </ul>
+            </div>
+            <div class="plan-card pro">
+                <div class="badge">Recommended</div>
+                <h3>Pro</h3>
+                <div class="price">$5 <span>one-time</span></div>
+                <ul>
+                    <li>Hybrid matching (keyword + embedding)</li>
+                    <li>ecoinvent database (6,000+ factors)</li>
+                    <li>hybrid keyword + embedding matching</li>
+                    <li>Unlimited queries</li>
+                    <li>Lifetime access</li>
+                </ul>
+                <button id="buyButton" class="buy-btn" disabled>Loading...</button>
+                <p class="delivery-note">Upon successful payment, your Pro License Key will be delivered immediately to your email address provided at checkout.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MoR Notice -->
+<div class="mor-notice">
+    Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries and handles returns.
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <p>
+        <a href="terms.html">Terms of Service</a>
+        <a href="refund.html">Refund Policy</a>
+        <a href="privacy.html">Privacy Policy</a>
+    </p>
+    <p class="support">Support: <a href="/cdn-cgi/l/email-protection#127c7b7977737c767d7177737c52757f737b7e3c717d7f"><span class="__cf_email__" data-cfemail="2a4443414f4b444e45494f4b446a4d474b434604494547">[email&#160;protected]</span></a></p>
+    <p style="margin-top: 10px;">&copy; 2026 Tao Yan / Zero Carbon Logic. All rights reserved.</p>
+</footer>
+
+<!-- Paddle checkout v2 -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
+    (function () {
+        var script = document.createElement('script');
+        script.src = '/mcp/paddle.js';
+        script.async = true;
+
+        script.onload = function () {
+            try {
+                Paddle.Initialize({
+                    token: "live_d5cceb859b6516f59cdcbf75420"
+                });
+
+                var btn = document.getElementById('buyButton');
+                btn.innerText = "Buy Pro License — $5 USD";
+                btn.removeAttribute('disabled');
+
+                btn.addEventListener('click', function() {
+                    Paddle.Checkout.open({
+                        settings: {
+                            displayMode: "overlay",
+                            theme: "light",
+                            locale: "en"
+                        },
+                        items: [{
+                            priceId: "pri_01kvcaxdehj24q7nftmd2r513r",
+                            quantity: 1
+                        }]
+                    });
+                });
+            } catch (e) {
+                var btn = document.getElementById('buyButton');
+                btn.innerText = "Error: " + e.message;
+            }
+        };
+
+        script.onerror = function () {
+            var btn = document.getElementById('buyButton');
+            btn.innerText = "Network Error — Check VPN";
+            btn.disabled = true;
+        };
+
+        document.head.appendChild(script);
+    })();
+</script>
+
+</body>
+</html>
