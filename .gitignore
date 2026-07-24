@@ -42,7 +42,7 @@ workers/
 figures/
 data/
 tools/
-demos/
+/demos/
 *.db
 *.sqlite
 *.sqlite3
