@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carbon Factor Matcher MCP — Buy Pro</title>
+    <title>Carbon Factor Matcher MCP</title>
     <style>
         body {
             background-color: #0d1117;
@@ -16,29 +16,33 @@
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         }
-        .container { text-align: center; padding: 20px; }
+        .container { text-align: center; padding: 20px; max-width: 600px; }
         h1 { font-size: 2.5rem; margin-bottom: 10px; }
         .subtitle { color: #8b949e; font-size: 1.2rem; margin-bottom: 30px; }
-        .buy-btn {
+        .btn {
             display: inline-block;
-            background-color: #238636;
-            color: #ffffff;
             padding: 15px 30px;
             font-size: 1.1rem;
             font-weight: 600;
             text-decoration: none;
             border-radius: 8px;
-            cursor: pointer;
-            border: none;
+            margin: 8px;
             transition: background-color 0.2s;
         }
-        .buy-btn:hover { background-color: #2ea043; }
-        .buy-btn:disabled {
-            background-color: #21262d;
-            color: #8b949e;
-            cursor: not-allowed;
+        .btn-primary {
+            background-color: #238636;
+            color: #ffffff;
         }
-        .footer { color: #8b949e; font-size: 0.9rem; margin-top: 20px; }
+        .btn-primary:hover { background-color: #2ea043; }
+        .btn-secondary {
+            background-color: #21262d;
+            color: #ecf2f8;
+            border: 1px solid #30363d;
+        }
+        .btn-secondary:hover { border-color: #58a6ff; }
+        .footer { color: #8b949e; font-size: 0.9rem; margin-top: 30px; }
+        .footer a { color: #58a6ff; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -46,56 +50,15 @@
         <h1>Carbon Factor Matcher MCP</h1>
         <p class="subtitle">Intelligent emission factor matching for carbon accounting &amp; LCA</p>
 
-        <button id="buyButton" class="buy-btn" disabled>Loading Payment Gateway...</button>
+        <div>
+            <a href="https://zerocarbonlogic.com/" class="btn btn-primary">Visit Website</a>
+            <a href="demo.html" class="btn btn-secondary">Try Free Demo</a>
+        </div>
 
-        <p class="footer">One-time purchase · Lifetime access · PayPal &amp; WeChat Pay</p>
-        <p style="margin-top: 1rem;"><a href="demo.html" style="color: #58a6ff; text-decoration: none; font-size: 0.9rem;">Try the free demo first →</a></p>
+        <p class="footer">
+            <a href="https://github.com/nikeandocean/carbon-factor-matcher">GitHub</a> ·
+            <a href="https://zerocarbonlogic.com/">zerocarbonlogic.com</a>
+        </p>
     </div>
-
-    <script type="text/javascript">
-        (function () {
-            var script = document.createElement('script');
-            script.src = 'https://cdn.paddle.com/paddle/v3/paddle.js';
-            script.async = true;
-
-            script.onload = function () {
-                console.log("Paddle SDK loaded.");
-                try {
-                    Paddle.Environment.set('production');
-                    Paddle.Initialize({
-                        token: "live_d5cceb859b6516f59cdcbf75420"
-                    });
-
-                    var btn = document.getElementById('buyButton');
-                    btn.innerText = "Buy Pro License — $5 USD";
-                    btn.removeAttribute('disabled');
-
-                    btn.addEventListener('click', function() {
-                        Paddle.Checkout.open({
-                            settings: {
-                                displayMode: "overlay",
-                                theme: "dark",
-                                locale: "en"
-                            },
-                            items: [{
-                                priceId: "pri_01kvcaxdehj24q7nftmd2r513r",
-                                quantity: 1
-                            }]
-                        });
-                    });
-                } catch (e) {
-                    alert("Paddle Init Error: " + e.message);
-                }
-            };
-
-            script.onerror = function () {
-                var btn = document.getElementById('buyButton');
-                btn.innerText = "Network Error — VPN Required";
-                alert("Cannot connect to Paddle payment gateway. Please enable global proxy mode.");
-            };
-
-            document.head.appendChild(script);
-        })();
-    </script>
 </body>
 </html>
