@@ -130,11 +130,7 @@ The Free tier works immediately after installation (300 queries/day, ELCD databa
 | **Free** | $0 | ELCD database (~600 factors), keyword search, 300 queries/day |
 | **Pro** | $5 (one-time) | ELCD + ecoinvent (~6,000+ factors), hybrid keyword + embedding matching, unlimited queries |
 
-### Purchase License Key
-
-👉 **[Buy Pro License](https://nikeandocean.github.io/carbon-factor-matcher)**
-
-After purchase, you'll receive a license key via email. Set it as an environment variable in your MCP config:
+After purchase at [zerocarbonlogic.com](https://zerocarbonlogic.com/), you'll receive a license key via email. Set it as an environment variable in your MCP config:
 
 ```json
 {

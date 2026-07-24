@@ -15,7 +15,7 @@ Our order process is conducted by our online reseller Paddle.com. Paddle.com is 
 ## License Tiers
 
 - **Free Tier** — Keyword-based search over ELCD, up to 300 queries per day. No license key required.
-- **Pro Tier** — Hybrid matching (keyword + embedding similarity), ecoinvent access, unlimited queries. Requires a one-time purchase license key.
+- **Pro Tier** — Hybrid matching (keyword + embedding similarity), ecoinvent access, unlimited queries. Requires a license key.
 
 ## Delivery
 
