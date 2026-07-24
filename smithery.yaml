@@ -5,8 +5,8 @@ name: carbon-factor-matcher
 description: >
   MCP server for intelligent emission factor matching from ELCD and ecoinvent
   databases. Supports carbon accounting, LCA, and ESG reporting with hybrid
-  retrieval and 5-dimension data quality assessment. No external LLM API needed.
-version: 2.1.0
+  keyword + embedding retrieval. No external LLM API needed.
+version: 2.2.1
 author: nikeandocean
 homepage: https://nikeandocean.github.io/carbon-factor-matcher/
 repository: https://github.com/nikeandocean/carbon-factor-matcher
@@ -33,10 +33,10 @@ tools:
     description: >
       Intelligent emission factor matching for carbon accounting and LCA.
       Takes a natural-language activity description and returns ranked candidate
-      factors with CO2-equivalent intensity, data quality ratings, and scores.
-      Free: ELCD keyword search (~600 European factors). Pro: embedding + quality
-      hybrid matching over ecoinvent (~21,000 global factors) with 5-dimension
-      quality assessment. The calling agent selects the best match from candidates.
+      factors with CO2-equivalent intensity, hybrid scores, and metadata.
+      Free: ELCD keyword search (~600 European factors). Pro: hybrid keyword +
+      embedding matching over ecoinvent (~6,000+ global factors). The calling
+      agent selects the best match from candidates.
     args:
       activity_data:
         type: string
@@ -65,8 +65,8 @@ tools:
           description: >
             The main response payload. Pro tier contains 'candidates' array with ranked
             emission factors (id, name, value, unit, category, geography, applicability,
-            source, source_year, hybrid_score, quality_ratings, quality_score, final_score)
-            and 'selection_guidance'. Free tier contains 'factors' array with basic info.
+            source, source_year, hybrid_score, final_score) and 'selection_guidance'.
+            Free tier contains 'factors' array with basic info.
         upgrade_hint:
           type: string
           nullable: true
@@ -135,9 +135,7 @@ tools:
     description: >
       Retrieve full metadata for a specific emission factor by its unique identifier.
       Returns emission intensity value, unit, geographic scope, applicability conditions,
-      data source, publication year, and (Pro tier) 5-dimension data quality ratings
-      covering technology representativeness, source reliability, geographic and time
-      representativeness, and factor type.
+      data source, publication year, and database source.
     args:
       factor_id:
         type: string
@@ -155,8 +153,7 @@ tools:
           type: object
           description: >
             Full factor metadata including: id, name, category, value (kgCO2e per unit),
-            unit, geography, applicability, source, source_year. Pro tier additionally
-            returns 5-dimension quality ratings.
+            unit, geography, applicability, source, source_year, db_source.
         upgrade_hint:
           type: string
           nullable: true

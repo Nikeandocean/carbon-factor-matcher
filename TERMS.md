@@ -6,7 +6,7 @@
 
 ## Service Description
 
-Carbon Factor Matcher is an MCP (Model Context Protocol) server that provides intelligent emission factor matching for carbon accounting and Life Cycle Assessment (LCA). It connects AI agents with emission factor databases including ELCD (~600 factors) and ecoinvent (~21,000 factors, Pro tier).
+Carbon Factor Matcher is an MCP (Model Context Protocol) server that provides intelligent emission factor matching for carbon accounting and Life Cycle Assessment (LCA). It connects AI agents with emission factor databases including ELCD (~600 factors) and ecoinvent (~6,000+ factors, Pro tier).
 
 ## Order Processing & Merchant of Record
 
@@ -15,7 +15,7 @@ Our order process is conducted by our online reseller Paddle.com. Paddle.com is 
 ## License Tiers
 
 - **Free Tier** — Keyword-based search over ELCD, up to 300 queries per day. No license key required.
-- **Pro Tier** — Hybrid matching (keyword + embedding similarity), ecoinvent access, 5-dimension data quality ratings, unlimited queries. Requires a one-time purchase license key.
+- **Pro Tier** — Hybrid matching (keyword + embedding similarity), ecoinvent access, unlimited queries. Requires a one-time purchase license key.
 
 ## Delivery
 

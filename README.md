@@ -9,18 +9,17 @@ An MCP (Model Context Protocol) server that connects AI agents with carbon emiss
 Carbon Factor Matcher helps AI agents find the most appropriate emission factors from standardized environmental databases. It uses a hybrid search algorithm:
 
 1. **Keyword + Embedding retrieval** — Field-weighted keyword scoring and semantic similarity to find candidate factors
-2. **Quality-based ranking** — 5-dimension data quality assessment to rank candidates
 
 The calling AI agent selects the best match from the ranked candidates. No external LLM API needed.
 
 ### Supported Databases
 
 - **ELCD** — European Reference Life Cycle Database (~600 factors, included in Free tier)
-- **ecoinvent 3.10** — Swiss Centre for Life Cycle Inventories (~21,000 factors, Pro license required)
+- **ecoinvent 3.10** — Swiss Centre for Life Cycle Inventories (~6,000+ factors, Pro license required)
 
 ### Key Features
 
-- 5-dimension data quality rating (technology, geography, source, time, factor type)
+- Hybrid keyword + embedding matching for accurate factor retrieval
 - Multi-language support (Chinese/English activity descriptions)
 - Zero configuration — works out of the box after installation
 - MCP-compatible — works with Claude, Cursor, Windsurf, Cline, Continue, and any MCP client
@@ -129,7 +128,7 @@ The Free tier works immediately after installation (300 queries/day, ELCD databa
 | Plan | Price | Features |
 |------|-------|----------|
 | **Free** | $0 | ELCD database (~600 factors), keyword search, 300 queries/day |
-| **Pro** | $5 (one-time) | ELCD + ecoinvent (~21,000 factors), hybrid matching with quality rating, unlimited queries |
+| **Pro** | $5 (one-time) | ELCD + ecoinvent (~6,000+ factors), hybrid keyword + embedding matching, unlimited queries |
 
 ### Purchase License Key
 
@@ -164,7 +163,7 @@ Note: No external LLM API configuration needed. The calling AI agent handles fin
 
 ### `factor_match`
 
-Match activity data to emission factors. Free tier uses keyword search; Pro tier uses hybrid embedding + quality ranking. Returns ranked candidates for the calling agent to select from.
+Match activity data to emission factors. Free tier uses keyword search; Pro tier uses hybrid keyword + embedding matching. Returns ranked candidates for the calling agent to select from.
 
 **Input:**
 ```json
@@ -184,8 +183,6 @@ Match activity data to emission factors. Free tier uses keyword search; Pro tier
       "value": 0.6101,
       "unit": "kgCO2e/kWh",
       "hybrid_score": 0.85,
-      "quality_ratings": {"tech_representativeness": 1, "source_reliability": 1, "...": "..."},
-      "quality_score": 0.9,
       "final_score": 0.875
     }
   ],
