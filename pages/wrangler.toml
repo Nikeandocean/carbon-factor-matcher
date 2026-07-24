@@ -1,0 +1,15 @@
+name = "carbon-api"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "./public"
+
+# R2 bucket binding
+[[r2_buckets]]
+binding = "CARBON_FACTORS"
+bucket_name = "carbon-factors"
+
+# Environment variables (set via wrangler secret)
+# PADDLE_API_KEY
+# PADDLE_WEBHOOK_SECRET
+# RESEND_API_KEY
+# PADDLE_PRICE_ID
+# LICENSE_SECRET

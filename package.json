@@ -1,0 +1,48 @@
+{
+  "name": "@nikeandocean/carbon-factor-matcher",
+  "version": "2.1.0",
+  "description": "MCP server for intelligent emission factor matching — connects AI agents with carbon emission factor databases (ELCD, ecoinvent)",
+  "main": "index.js",
+  "bin": {
+    "carbon-factor-matcher": "index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "carbon",
+    "emission-factor",
+    "carbon-accounting",
+    "lca",
+    "life-cycle-assessment",
+    "ecoinvent",
+    "elcd",
+    "sustainability",
+    "climate",
+    "esg",
+    "ghg",
+    "carbon-footprint",
+    "co2"
+  ],
+  "author": "nikeandocean",
+  "license": "Proprietary",
+  "homepage": "https://github.com/nikeandocean/carbon-factor-matcher#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikeandocean/carbon-factor-matcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nikeandocean/carbon-factor-matcher/issues"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

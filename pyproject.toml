@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "carbon-factor-matcher"
+version = "2.1.0"
+description = "MCP server for intelligent emission factor matching using hybrid retrieval and quality-based ranking"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Proprietary"}
+keywords = ["mcp", "mcp-server", "carbon", "emission-factor", "carbon-accounting", "lca", "life-cycle-assessment", "ecoinvent", "elcd", "sustainability", "climate", "esg", "ghg", "carbon-footprint"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "sentence-transformers>=3.0.0",
+    "numpy>=1.24.0",
+    "openpyxl>=3.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/nikeandocean/carbon-factor-matcher"
+
+[project.scripts]
+carbon-factor-matcher = "carbon_factor_matcher.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/carbon_factor_matcher"]
+exclude = ["src/carbon_factor_matcher/data/**"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["data/", "workers/", "demos/", "tools/", "tests/", ".claude/"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

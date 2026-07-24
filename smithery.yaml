@@ -1,0 +1,186 @@
+# Smithery.ai configuration for Carbon Factor Matcher
+# https://smithery.ai/docs/config
+
+name: carbon-factor-matcher
+description: >
+  MCP server for intelligent emission factor matching from ELCD and ecoinvent
+  databases. Supports carbon accounting, LCA, and ESG reporting with hybrid
+  retrieval and 5-dimension data quality assessment. No external LLM API needed.
+version: 2.1.0
+author: nikeandocean
+homepage: https://nikeandocean.github.io/carbon-factor-matcher/
+repository: https://github.com/nikeandocean/carbon-factor-matcher
+
+# Entry point
+entryPoint: carbon_factor_matcher.server:main
+
+# Runtime configuration
+runtime: python
+pythonVersion: "3.11"
+
+# Environment variables required
+env:
+  - name: CARBON_FACTOR_LICENSE_KEY
+    description: License key for Pro/Enterprise features
+    required: false
+  - name: CARBON_FACTOR_DATA_DIR
+    description: Path to factor data directory
+    default: data/factors
+
+# MCP tools exposed (explicit schema for Smithery scoring)
+tools:
+  - name: factor_match
+    description: >
+      Intelligent emission factor matching for carbon accounting and LCA.
+      Takes a natural-language activity description and returns ranked candidate
+      factors with CO2-equivalent intensity, data quality ratings, and scores.
+      Free: ELCD keyword search (~600 European factors). Pro: embedding + quality
+      hybrid matching over ecoinvent (~21,000 global factors) with 5-dimension
+      quality assessment. The calling agent selects the best match from candidates.
+    args:
+      activity_data:
+        type: string
+        description: >
+          Natural-language description of the activity, material, or process to match.
+          Examples: "Factory in Shenzhen, 10kV industrial electricity, 2024",
+          "diesel combustion for freight transport, EU", "cement production, rotary kiln".
+          IMPORTANT: The database is in English. If the user input is in another language,
+          translate to English keywords before querying (e.g. 水泥→cement, 柴油→diesel, Zement→cement).
+        required: true
+      top_k:
+        type: integer
+        description: >
+          Number of candidate factors to consider in the rough filter stage (1-50).
+          Higher values improve recall but increase latency. Default: 10.
+        default: 10
+        required: false
+    outputSchema:
+      type: object
+      description: >
+        Standard response envelope wrapping the main result data with an optional
+        upgrade hint for free-tier users approaching their daily limit.
+      properties:
+        data:
+          type: object
+          description: >
+            The main response payload. Pro tier contains 'candidates' array with ranked
+            emission factors (id, name, value, unit, category, geography, applicability,
+            source, source_year, hybrid_score, quality_ratings, quality_score, final_score)
+            and 'selection_guidance'. Free tier contains 'factors' array with basic info.
+        upgrade_hint:
+          type: string
+          nullable: true
+          description: >
+            Optional hint shown to free-tier users when approaching the daily query limit.
+            Contains the number of remaining queries and a link to upgrade to Pro.
+      required:
+        - data
+    annotations:
+      readOnlyHint: true
+      destructiveHint: false
+      idempotentHint: true
+      openWorldHint: false
+
+  - name: factor_search
+    description: >
+      Keyword search over emission factor databases. Returns matching factors with
+      CO2-equivalent intensity (kgCO2e per unit), unit, geographic scope, source,
+      and publication year. Supports optional category filtering.
+    args:
+      query:
+        type: string
+        description: >
+          Search keyword — material name, process, or activity (in English).
+          Examples: "electricity", "diesel", "transport", "cement", "polyethylene".
+          IMPORTANT: The database is in English. Translate non-English terms to English
+          before querying (e.g. 聚乙烯→polyethylene, 水泥→cement, Stahl→steel).
+        required: true
+      category:
+        type: string
+        description: >
+          Optional category filter. Common categories: "electricity", "fuel",
+          "transport", "chemicals", "metals", "construction".
+        required: false
+      limit:
+        type: integer
+        description: Maximum number of results to return (1-50). Default: 10.
+        default: 10
+        required: false
+    outputSchema:
+      type: object
+      description: >
+        Standard response envelope wrapping search results with an optional
+        upgrade hint for free-tier users.
+      properties:
+        data:
+          type: object
+          description: >
+            Search results containing 'count' (number of matches) and 'factors' array.
+            Each factor has: id, name, value (kgCO2e per unit), unit, category,
+            geography, source, source_year.
+        upgrade_hint:
+          type: string
+          nullable: true
+          description: >
+            Optional hint for free-tier users near the daily limit.
+      required:
+        - data
+    annotations:
+      readOnlyHint: true
+      destructiveHint: false
+      idempotentHint: true
+      openWorldHint: false
+
+  - name: factor_detail
+    description: >
+      Retrieve full metadata for a specific emission factor by its unique identifier.
+      Returns emission intensity value, unit, geographic scope, applicability conditions,
+      data source, publication year, and (Pro tier) 5-dimension data quality ratings
+      covering technology representativeness, source reliability, geographic and time
+      representativeness, and factor type.
+    args:
+      factor_id:
+        type: string
+        description: >
+          Unique identifier of the emission factor, as returned by factor_match
+          or factor_search. Example: "urn:uuid:bab6dd4e-a2ea-4fd9-a585-e8edafcb42e1".
+        required: true
+    outputSchema:
+      type: object
+      description: >
+        Standard response envelope wrapping factor metadata with an optional
+        upgrade hint for free-tier users.
+      properties:
+        data:
+          type: object
+          description: >
+            Full factor metadata including: id, name, category, value (kgCO2e per unit),
+            unit, geography, applicability, source, source_year. Pro tier additionally
+            returns 5-dimension quality ratings.
+        upgrade_hint:
+          type: string
+          nullable: true
+          description: >
+            Optional hint for free-tier users near the daily limit.
+      required:
+        - data
+    annotations:
+      readOnlyHint: true
+      destructiveHint: false
+      idempotentHint: true
+      openWorldHint: false
+
+# Tags for discovery
+tags:
+  - carbon
+  - emission-factor
+  - lca
+  - ecoinvent
+  - sustainability
+  - climate
+
+# Category
+category: Science & Engineering
+
+# License
+license: Proprietary
