@@ -18,6 +18,9 @@ export async function onRequestGet(context) {
     },
     body: JSON.stringify({
       items: [{ price_id: env.PADDLE_PRICE_ID, quantity: 1 }],
+      checkout: {
+        success_url: "https://nikeandocean.github.io/carbon-factor-matcher/success.html"
+      },
     }),
   });
 
