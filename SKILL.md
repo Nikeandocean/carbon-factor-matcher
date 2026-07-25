@@ -14,10 +14,11 @@ An MCP server connecting AI agents with 600+ ELCD and 6,000+ ecoinvent emission 
 
 ## Features
 
-- **Hybrid Search**: Combines keyword scoring with embedding-based semantic similarity
-- **6,000+ Factors**: ecoinvent 3.10 database access (Pro tier)
-- **Free Tier**: 300 queries/day on ELCD database
-- **No External LLM**: Self-contained matching engine
+- **Hybrid Matching** — Keyword scoring + embedding similarity + quality-based ranking
+- **Multi-Database** — ELCD + ecoinvent 3.10 support
+- **Data Quality Rating** — 5-dimension quality assessment (technology, geography, source, time, factor type)
+- **Zero Config** — Works out of the box, no API keys required
+- **MCP Compatible** — Works with any MCP client (Claude, Cursor, etc.)
 
 ## Quick Start
 

@@ -10,7 +10,7 @@ Carbon Factor Matcher helps AI agents find the most appropriate emission factors
 
 1. **Keyword + Embedding retrieval** — Field-weighted keyword scoring and semantic similarity to find candidate factors
 
-The calling AI agent selects the best match from the ranked candidates. No external LLM API needed.
+The calling AI agent selects the best match from the ranked candidates.
 
 ### Supported Databases
 
@@ -153,7 +153,7 @@ After purchase at [zerocarbonlogic.com](https://zerocarbonlogic.com/), you'll re
 | `CARBON_FACTOR_LICENSE_KEY` | Your license key (empty = Free tier) | — |
 | `CARBON_FACTOR_DATA_DIR` | Path to local factor database | `data/factors` |
 
-Note: No external LLM API configuration needed. The calling AI agent handles final factor selection.
+Note: No additional API configuration needed. The calling AI agent handles final factor selection.
 
 ## Available Tools
 
