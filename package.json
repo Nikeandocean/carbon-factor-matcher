@@ -1,6 +1,6 @@
 {
   "name": "@nikeandocean/carbon-factor-matcher",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "MCP server for intelligent emission factor matching — connects AI agents with carbon emission factor databases (ELCD, ecoinvent)",
   "main": "index.js",
   "bin": {

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "carbon-factor-matcher"
-version = "2.1.0"
+version = "2.3.0"
 description = "MCP server for intelligent emission factor matching using hybrid retrieval and quality-based ranking"
 readme = "README.md"
 requires-python = ">=3.11"
