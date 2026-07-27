@@ -1,43 +1,100 @@
 ---
 name: carbon-factor-matcher
-description: MCP server for intelligent emission factor matching from ELCD and ecoinvent databases. Supports carbon accounting, LCA, and ESG reporting with hybrid keyword + embedding retrieval.
-metadata:
-  openclaw:
-    requires:
-      bins: ["npx"]
-    homepage: "https://zerocarbonlogic.com"
+description: Intelligent emission factor matching for carbon accounting. Uses hybrid search (keyword + embedding) with quality-based ranking to find the best emission factors from ELCD, US LCI, USDA LCA Commons, and ecoinvent databases.
 ---
 
 # Carbon Factor Matcher
 
-An MCP server connecting AI agents with 600+ ELCD and 6,000+ ecoinvent emission factors for carbon accounting and Life Cycle Assessment (LCA).
+Intelligent emission factor matching for carbon accounting. Uses hybrid search (keyword + embedding) with quality-based ranking to find the best emission factors from ELCD, US LCI, USDA LCA Commons, and ecoinvent databases.
 
 ## Features
 
 - **Hybrid Matching** — Keyword scoring + embedding similarity + quality-based ranking
-- **Multi-Database** — ELCD + ecoinvent 3.10 support
+- **Multi-Database** — ELCD + US LCI + USDA LCA Commons + ecoinvent 3.10 (8,400+ factors)
 - **Data Quality Rating** — 5-dimension quality assessment (technology, geography, source, time, factor type)
 - **Zero Config** — Works out of the box, no API keys required
 - **MCP Compatible** — Works with any MCP client (Claude, Cursor, etc.)
 
-## Quick Start
+## Install
 
 ```bash
-# Free tier (no license key needed)
-npx -y @nikeandocean/carbon-factor-matcher
+npx @anthropic-ai/claude-code add nikeandocean/carbon-factor-matcher
 ```
 
-## Available Tools
+## Configuration
 
-### factor_match
-Intelligent emission factor matching. Takes a natural-language description and returns the best-matching factor with CO2e intensity.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `CARBON_FACTOR_DATA_DIR` | Path to factor database | `data/factors` |
+| `CARBON_FACTOR_LICENSE_KEY` | Your license key | (empty = Free) |
+| `EMBEDDING_MODEL` | Embedding model | `shibing624/text2vec-base-chinese` |
 
-### factor_search
-Keyword search over emission factor databases.
+## Databases
 
-### factor_detail
-Retrieve full metadata for a specific emission factor by ID.
+| Database | Factors | Coverage | Free |
+|----------|---------|----------|------|
+| ELCD | ~500 | European reference data | ✅ |
+| US LCI | ~500 | US industrial processes | ✅ |
+| USDA LCA Commons | ~1,500 | US agriculture & forestry | ✅ |
+| ecoinvent 3.10 | ~5,800 | Global, all sectors | Pro |
+
+## License Tiers
+
+| Feature | Free | Pro ($5 one-time) |
+|---------|------|---------------------|
+| ELCD database | ✅ | ✅ |
+| US LCI database | ✅ | ✅ |
+| USDA LCA Commons | ✅ | ✅ |
+| ecoinvent database | ❌ | ✅ |
+| Basic keyword search | ✅ | ✅ |
+| Hybrid matching | ❌ | ✅ |
+| Data quality rating | ❌ | ✅ |
+| Results per query | Top 3 | Unlimited |
+
+**Get Pro License:** [Buy Pro License](https://nikeandocean.github.io/carbon-factor-matcher)
+
+## Tools
+
+### `factor_match`
+
+Match activity data to emission factors using hybrid search + quality ranking. Returns ranked candidates for the calling agent to select from.
+
+```json
+{
+  "activity_data": "Factory in Shenzhen, 10kV industrial electricity, 2024",
+  "top_k": 10
+}
+```
+
+### `factor_search`
+
+Search emission factors by keyword.
+
+```json
+{
+  "query": "diesel",
+  "category": "fuel",
+  "limit": 10
+}
+```
+
+### `factor_detail`
+
+Get full metadata for a specific factor.
+
+```json
+{
+  "factor_id": "elcd-123"
+}
+```
+
+## Tech Stack
+
+- Python 3.11+
+- MCP SDK
+- Sentence Transformers (local embedding, CPU)
+- SQLite (usage tracking)
 
 ## License
 
-Free tier available. Pro license at [zerocarbonlogic.com](https://zerocarbonlogic.com/).
+Proprietary.

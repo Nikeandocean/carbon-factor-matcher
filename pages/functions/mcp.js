@@ -57,7 +57,7 @@ function getMcpTools() {
         "Intelligent emission factor matching for carbon accounting and Life Cycle Assessment (LCA). " +
         "Takes a natural-language description of an industrial activity or material and returns " +
         "the best-matching emission factor with CO2-equivalent intensity, confidence score, and reasoning. " +
-        "Free tier uses keyword search over ELCD database (~600 European factors). " +
+        "Free tier uses keyword search over ELCD (~500 European factors) + US LCI (~500 US factors) + USDA LCA Commons (~1,500 US agricultural factors). " +
         "Pro tier adds embedding-based semantic search + quality-based ranking over ecoinvent (~21,000 global factors) " +
         "with 5-dimension data quality assessment.",
       inputSchema: {
@@ -146,7 +146,7 @@ async function handleMcpToolCall(id, params, env) {
       }
       const limit = Math.min(Math.max(args?.top_k || args?.limit || 10, 1), 50);
       const category = args?.category || "";
-      const source = args?.source || "elcd";
+      const source = args?.source || "elcd,us lci,usda lca commons";
       const sourceParam = source === "all" ? "" : source;
 
       // Call internal search

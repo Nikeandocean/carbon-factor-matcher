@@ -25,9 +25,10 @@ export async function onRequestGet(context) {
     const text = await obj.text();
     let factors = JSON.parse(text);
 
-    // Filter by database source
+    // Filter by database source — supports comma-separated values (e.g. "elcd,us lci")
     if (source) {
-      factors = factors.filter((f) => (f.db_source || "").toLowerCase() === source);
+      const allowed = new Set(source.split(",").map((s) => s.trim()));
+      factors = factors.filter((f) => allowed.has((f.db_source || "").toLowerCase()));
     }
 
     // Detect CJK characters

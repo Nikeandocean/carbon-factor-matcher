@@ -3,10 +3,11 @@
 
 name: carbon-factor-matcher
 description: >
-  MCP server for intelligent emission factor matching from ELCD and ecoinvent
-  databases. Supports carbon accounting, LCA, and ESG reporting with hybrid
-  keyword + embedding retrieval.
-version: 2.3.0
+  MCP server for intelligent emission factor matching from ELCD, US LCI,
+  USDA LCA Commons, and ecoinvent databases (8,400+ factors). Supports
+  carbon accounting, LCA, and ESG reporting with hybrid keyword + embedding
+  retrieval.
+version: 2.3.1
 author: nikeandocean
 homepage: https://nikeandocean.github.io/carbon-factor-matcher/
 repository: https://github.com/nikeandocean/carbon-factor-matcher
@@ -34,9 +35,10 @@ tools:
       Intelligent emission factor matching for carbon accounting and LCA.
       Takes a natural-language activity description and returns ranked candidate
       factors with CO2-equivalent intensity, hybrid scores, and metadata.
-      Free: ELCD keyword search (~600 European factors). Pro: hybrid keyword +
-      embedding matching over ecoinvent (~6,000+ global factors). The calling
-      agent selects the best match from candidates.
+      Free: keyword search over ELCD (~500 European factors) + US LCI (~500 US
+      factors) + USDA LCA Commons (~1,500 US agricultural factors). Pro: hybrid
+      keyword + embedding matching over ecoinvent (~5,800 global factors).
+      The calling agent selects the best match from candidates.
     args:
       activity_data:
         type: string
@@ -173,6 +175,8 @@ tags:
   - emission-factor
   - lca
   - ecoinvent
+  - us-lci
+  - usda
   - sustainability
   - climate
 
