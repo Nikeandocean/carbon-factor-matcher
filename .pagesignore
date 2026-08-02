@@ -1,0 +1,8 @@
+workers/
+data/
+.claude/
+tests/
+*.zip
+*.json.gz
+embeddings.json
+factors.json
